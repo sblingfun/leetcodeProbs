@@ -1,0 +1,51 @@
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        if (image[sr][sc] == color) return image;
+        fillPix(image, sr, sc, image[sr][sc], color);
+        return image;
+    }
+    private void fillPix(int[][] image, int sr, int sc, int oldColor, int newColor) {
+        //could do || with opposite
+        if (sr >= 0 && sc >= 0 && sr < image.length && sc < image[0].length && image[sr][sc] == oldColor) {
+            image[sr][sc] = newColor;
+            fillPix(image, sr - 1, sc, oldColor, newColor);
+            fillPix(image, sr + 1, sc, oldColor, newColor);
+            fillPix(image, sr, sc - 1, oldColor, newColor);
+            fillPix(image, sr, sc + 1, oldColor, newColor);
+        }
+        else return;       
+    }
+}
+    
+    
+    
+    /* attempt 1
+    
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        
+        //might need queue
+        Queue<int[]> pixtoCheck = new LinkedList<int[]>();
+        int xIndx = sr;
+        int yIndx = sc;
+        if (image[sr][sc] == newColor) return image;
+        else pixtoCheck.add(new int[] {sr, sc});
+        int pixel = image[sr][sc];
+        
+        while (!pixtoCheck.isEmpty()) {
+            int[] cell = pixtoCheck.poll();
+            int r = cell[0];
+            int c = cell[1];
+
+            image[r][c] = newColor;
+            if (r - 1 >= 0 && image[r - 1][c] == pixel && image[r - 1][c] != newColor) 
+                pixtoCheck.add(new int[] { r - 1, c });
+            if (r + 1 <= image.length - 1 && image[r + 1][c] == pixel && image[r + 1][c] != newColor)
+                pixtoCheck.add(new int[] { r + 1, c });
+            if (c - 1 >= 0 && image[r][c - 1] == pixel && image[r][c - 1] != newColor)
+                pixtoCheck.add(new int[] { r, c - 1 });
+            if (c + 1 <= image.length - 1 && image[r][c + 1] == pixel && image[r][c + 1] != newColor)
+                pixtoCheck.add(new int[] { r, c + 1 });
+        }
+        return image;
+    }
+    */
