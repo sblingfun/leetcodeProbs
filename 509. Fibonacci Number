@@ -1,0 +1,15 @@
+class Solution {
+    public int fib(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+        int prev = 0;
+        int cur = 1;
+        int ans = 0;
+        for (int i = 0; i < n-1; i++) {
+            ans = cur + prev;
+            prev = cur; 
+            cur = ans;
+        }
+        return ans;
+    }
+}
