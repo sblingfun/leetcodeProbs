@@ -1,10 +1,15 @@
 class Solution {
     public int climbStairs(int n) {
-        int numWays = 1;
-        while (n > 1) {
-            n -= 2;
-            numWays ++;
+        int[] stairVals = new int[n];
+
+        //enter values for setps 1 and 2
+        stairVals[0] = 1;
+        if (n > 1) {
+            stairVals[1] = 2;
         }
-        return numWays;
+        for (int i = 2; i < n; i++) {
+            stairVals[i] = stairVals[i-1] + stairVals[i-2];
+        }
+        return stairVals[n-1];
     }
 }
