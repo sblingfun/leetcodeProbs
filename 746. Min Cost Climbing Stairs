@@ -1,0 +1,15 @@
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        int firstStep = 0;
+        int secondStep = 0;
+        for (int i = cost.length - 1; i >= 0; i--) {
+            int currentCost = cost[i] + Math.min(firstStep, secondStep);
+
+            //Use first and second step to cost up until that step picking
+            //the lowest value at each choice
+            firstStep = secondStep;
+            secondStep = currentCost;
+        }
+        return Math.min(firstStep, secondStep);
+    }
+}
