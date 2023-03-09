@@ -1,0 +1,20 @@
+class Solution {
+    public int pivotIndex(int[] nums) {
+        int retVal = -1;
+        if (sumArr(1,nums.length,nums) == 0) return 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (sumArr(0,i,nums) == sumArr(i+1,nums.length,nums)) return i;
+        }
+        if (sumArr(0,nums.length -1,nums) == 0) return nums.length;
+        
+        return retVal;
+    }
+
+    public int sumArr(int start, int end, int[] nums) {
+        int sum = 0;
+        for (int i = start; i < end; i++ ) {
+            sum += nums[i];
+        }
+        return sum;
+    }
+}
