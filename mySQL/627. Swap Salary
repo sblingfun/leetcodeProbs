@@ -1,0 +1,6 @@
+UPDATE Salary
+SET Sex =
+CASE Sex
+    WHEN 'm' THEN 'f'
+    ELSE 'm'
+END;
