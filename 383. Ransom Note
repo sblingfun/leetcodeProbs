@@ -1,0 +1,15 @@
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        HashMap<Character, Integer> magChars = new HashMap<Character, Integer>();
+        for (int i = 0; i < magazine.length(); i++) {
+            magChars.put(magazine.charAt(i), magChars.getOrDefault(magazine.charAt(i), 0) + 1);
+        }
+        for (int i = 0 ; i < ransomNote.length(); i++) {
+            if (magChars.containsKey(ransomNote.charAt(i)) && magChars.get(ransomNote.charAt(i)) > 0) {
+                magChars.put(ransomNote.charAt(i),magChars.get(ransomNote.charAt(i)) -1);
+            }
+            else return false;
+        }
+        return true;
+    }
+}
