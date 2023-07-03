@@ -1,0 +1,13 @@
+class Solution {
+    public int majorityElement(int[] nums) {
+        HashMap<Integer, Integer> seenInts = new HashMap<Integer, Integer>();
+        
+        //could use while loop
+        for (int i = 0; i < nums.length; i++) {
+            int numSeen = seenInts.getOrDefault(nums[i], 1);
+            if (numSeen > (nums.length/2)) return nums[i];
+            seenInts.put(nums[i], numSeen +1);
+        }
+        return -1;
+    }
+}
