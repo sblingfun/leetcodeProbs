@@ -1,0 +1,17 @@
+class Solution {
+    public boolean wordPattern(String pattern, String s) {
+        HashMap<Character,String> patternMap = new HashMap<Character,String>();
+        String[] tokens = s.split(" ");
+        if (pattern.length() != tokens.length) return false;
+        for (int i = 0; i < pattern.length(); i++) {
+            if (patternMap.get(pattern.charAt(i)) == null ) {
+                if (patternMap.containsValue(tokens[i])) return false;
+                patternMap.put(pattern.charAt(i), tokens[i]);
+            }
+            else {                
+                if (!patternMap.get(pattern.charAt(i)).equals(tokens[i])) return false;
+            }
+        }
+        return true;
+    }
+}
