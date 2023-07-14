@@ -1,0 +1,28 @@
+class Solution {
+    public boolean isValid(String s) {
+        //USE A STACK LIFO DATA STRUCTURE TO KEEP TRACK OF PARANTHESES
+        Stack<Character> seenParantheses = new Stack<Character>();
+
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                seenParantheses.push(c);
+            }
+            else {
+                if (seenParantheses.empty()) {
+                    return false;
+                }
+                if (c == ')' && seenParantheses.peek() == '(') {
+                    seenParantheses.pop();
+                }
+                else if (c == '}' && seenParantheses.peek() == '{') {
+                    seenParantheses.pop();
+                }
+                else if (c == ']' && seenParantheses.peek() == '[') {
+                    seenParantheses.pop();
+                }
+                else return false;
+            }
+        }
+        return seenParantheses.empty();
+    }
+}
