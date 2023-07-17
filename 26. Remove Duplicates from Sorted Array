@@ -1,0 +1,15 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int[] tempArr = nums;
+        HashSet<Integer> seenNums = new HashSet<Integer>();
+        int oldSize = 0;
+        for (int num : nums) {
+            seenNums.add(num);
+            if (oldSize < seenNums.size()) {
+                nums[oldSize] = num;
+                oldSize = seenNums.size();
+            }
+        }
+        return seenNums.size();
+    }
+}
