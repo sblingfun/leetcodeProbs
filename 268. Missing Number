@@ -1,0 +1,13 @@
+class Solution {
+    public int missingNumber(int[] nums) {
+        HashSet<Integer> seenInts= new HashSet<Integer>();
+        for (int i = 0; i < nums.length + 1; i++) {
+            seenInts.add(i);
+        }
+        for (int num : nums) {
+            seenInts.remove(num);
+        }
+        Integer ans = seenInts.toArray(new Integer[1])[0];
+        return ans;
+    }
+}
