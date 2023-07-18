@@ -1,0 +1,22 @@
+class Solution {
+    public int distanceTraveled(int mainTank, int additionalTank) {
+        int distance = 0;
+        if (mainTank < 5) {
+            distance += (mainTank * 10);
+            mainTank = 0;
+            System.out.println("firs dis:" + distance + "main:" + mainTank + "add:" + additionalTank);
+        }
+        while (mainTank >= 5 && additionalTank >= 1) {
+            mainTank -= 4;
+            distance += 50;
+            additionalTank -= 1;
+            System.out.println("loop dis:" + distance + "main:" + mainTank + "add:" + additionalTank);
+        }
+        if (mainTank > 0) {
+            distance += (mainTank * 10);
+            System.out.println("last dis:" + distance + "main:" + mainTank + "add:" + additionalTank);
+        }
+
+        return distance;
+    }
+}
