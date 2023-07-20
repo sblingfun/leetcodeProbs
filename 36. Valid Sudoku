@@ -1,0 +1,24 @@
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        int numSeen = 0;
+        boolean repeat = false;
+        HashSet<String> seenNum = new HashSet<String>();        
+        //Each Row, Col, and Box get on label
+        //Ex Row2 = 
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] != '.') {
+                    repeat = seenNum.add("R" + i + "_" + board[i][j]);
+                    if (!repeat) return false;
+                    repeat = seenNum.add("C" + j + "_" + board[i][j]);
+                    if (!repeat) return false;
+                    //division in Java rounds down
+                    //Can use i/3 and j/3 to determine which block we are in
+                    repeat = seenNum.add("B" + i/3 + j/3 + "_" + board[i][j]);
+                    if (!repeat) return false;
+                }
+            }
+        }
+        return true;
+    }    
+}
