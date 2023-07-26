@@ -1,0 +1,6 @@
+SELECT w2.Id
+FROM Weather w1
+INNER JOIN Weather w2
+ON DATEADD(Day,1,w1.recordDate) = w2.recordDate
+WHERE w2.temperature > w1.temperature
+ 
