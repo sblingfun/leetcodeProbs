@@ -1,5 +1,13 @@
+//MySQL
 SELECT user_id, CONCAT(UPPER(SUBSTR(name,1,1)), LOWER(SUBSTR(name,2,length(name)))) as name
 FROM Users
 ORDER BY user_id;
 
 # SUBSTR(string_name , start_index ,end_index)
+
+
+//MS SQL
+/* Write your T-SQL query statement below */
+SELECT user_id, Concat(Upper(SubString(name,1,1)), Lower(SubString(name,2,Len(name)))) AS name
+FROM Users
+ORDER BY user_id asc
