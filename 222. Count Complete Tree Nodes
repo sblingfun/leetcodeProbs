@@ -1,0 +1,22 @@
+class Solution {
+    public int countNodes(TreeNode root) {
+        /*
+
+        //O(n) time complexity can be accomplished iterating through each node
+        //BFS or DFS
+        
+        int retVal = 0;
+
+        Queue<TreeNode> nodeQueue = new LinkedList<TreeNode>();
+        if (root == null) return retVal;
+        else nodeQueue.add(root);
+        while (!nodeQueue.isEmpty()) {
+            TreeNode temp = nodeQueue.remove();
+            retVal++;
+            if (temp.left != null) nodeQueue.add(temp.left);
+            if (temp.right != null) nodeQueue.add(temp.right);
+        }
+        return retVal;
+        */
+    }
+}
