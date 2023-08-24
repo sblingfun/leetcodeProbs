@@ -1,5 +1,28 @@
 class Solution {
     public int countNodes(TreeNode root) {
+
+        //REVIEW THIS PART 
+public int countNodes(TreeNode root) {
+        int leftDepth = leftDepth(root);
+        return countNodes(root, leftDepth - 1);
+    }
+
+    private int countNodes(TreeNode root, int depth) {
+        if (root == null) return 0;
+        int ld = leftDepth(root.right);
+        TreeNode next = ld == depth ? root.right : root.left;
+        // root node + size of filled subtree of ld depth
+        return (1 << ld) + countNodes(next, depth - 1);
+    }
+
+    private int leftDepth(TreeNode node) {
+        int depth = 0;
+        while (node != null) {
+            depth++;
+            node = node.left;
+        }
+        return depth;
+    }
         /*
 
         //O(n) time complexity can be accomplished iterating through each node
@@ -18,5 +41,7 @@ class Solution {
         }
         return retVal;
         */
+
+        
     }
 }
