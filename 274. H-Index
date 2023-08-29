@@ -1,0 +1,20 @@
+class Solution {
+    public int hIndex(int[] citations) {
+        int[] counts = new int[citations.length + 1]; // create number of counts for total number of citations + 1 (for more)
+
+        for (int c : citations) {
+            if (c >= citations.length) counts[citations.length]++;
+            else {
+                counts[c]++;
+            }
+        }
+        int count = 0;
+        //start at largest value to minimize time
+        for (int i = citations.length; i > 0; i--) {
+            
+            count += counts[i];
+            if (count >= i) return i;
+        }
+        return 0;
+    }
+}
