@@ -1,0 +1,10 @@
+class Solution {
+    public boolean canJump(int[] nums) {
+        int far = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > far) return false; // this part of array isnt reachable
+            far = Math.max(far, i + nums[i]); // increase fartherst reachable to the current node + max distance travelled if possible
+        }
+        return true; // can reach end
+    }
+}
