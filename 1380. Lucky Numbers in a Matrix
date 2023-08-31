@@ -1,0 +1,27 @@
+class Solution {
+    public List<Integer> luckyNumbers (int[][] matrix) {
+        //List<Integer> retList = new ArrayList<Integer>;
+        HashSet<Integer> minVals = new HashSet<Integer>();
+        HashSet<Integer> maxVals = new HashSet<Integer>();
+
+        //add minimum of each row into a cell
+        for (int i = 0; i < matrix.length; i++) {
+            int min = matrix[i][0];
+            for (int j = 0; j < matrix[0].length; j++) {
+                min = Math.min(min, matrix[i][j]);                
+            }
+            minVals.add(min);
+        }
+
+        for (int i = 0; i < matrix[0].length; i++) {
+            int max = matrix[0][i];
+            for (int j = 0; j < matrix.length; j++) {
+                max = Math.max(max, matrix[j][i]);
+            }
+            if (minVals.contains(max)) {
+                maxVals.add(max);
+            }
+        }
+        return new ArrayList<Integer>(maxVals);
+    }
+}
