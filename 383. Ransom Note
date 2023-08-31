@@ -13,3 +13,26 @@ class Solution {
         return true;
     }
 }
+
+/**
+Alternate Solution
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        //Dont need to initalize return list can initalize arraylist at return time with ArrayList(map.values)
+        ArrayList<ArrayList<String>> retList = new ArrayList<ArrayList<String>>();
+
+
+        HashMap<String, List<String>> seenAna = new HashMap<String, List<String>>();
+        //for(string s: strs)
+        for (int i = 0; i < strs.length; i++) {
+            String sorted = Arrays.sort(strs[i]);
+            for (int j = 0; j < strs[i].length; j++) {
+                new ArrayList<> curAna = seenAna.getOrDefault(sorted, []);
+                seenAna.put(sorted, curAna);
+            }
+        }
+        return new ArrayList<>(seenAna.values());
+    }
+}
+
+**/
