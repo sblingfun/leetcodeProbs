@@ -1,4 +1,36 @@
 class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> retList = new ArrayList<List<String>>();
+        HashMap<String,List<String>> anaMap = new HashMap<String,List<String>>();
+        
+        //each anagram can be identified with a key of its sorted chars
+        for (String ana : strs) {
+            char[] arr = ana.toCharArray();
+            //Remember this line
+            Arrays.sort(arr);
+            String sort = Arrays.toString(arr);
+            if (!anaMap.containsKey(sort)) {
+                List<String> start = new ArrayList<String>();
+                start.add(ana);
+                anaMap.put(sort, start);
+            }
+            else {
+                List<String> curList = anaMap.get(sort);
+                curList.add(ana);
+                anaMap.put(sort, curList);
+            }
+                    
+        }
+        for (List<String> l : anaMap.values()) {
+            retList.add(l);
+        }
+        return retList;
+
+    }
+}
+
+//Different problem
+class Solution {
     public int nextNumber(int n){
         int newNumber = 0;
         while(n != 0){
