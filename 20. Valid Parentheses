@@ -1,3 +1,43 @@
+//2nd time seeing problem
+class Solution {
+    public boolean isValid(String s) {
+        //USE A STACK LIFO DATA STRUCTURE TO KEEP TRACK OF PARANTHESES
+        //Stack is LIFO
+        Stack<Character> seen = new Stack<Character>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                seen.push('(');
+            }
+            if (s.charAt(i) == '{') {
+                seen.push('{');
+            }
+            if (s.charAt(i) == '[') {
+                seen.push('[');
+            }
+            if (s.charAt(i) == ')') {
+                if( seen.isEmpty() || seen.pop() != '(') {
+                    return false;
+                }
+            }
+            if (s.charAt(i) == '}') {
+                if( seen.isEmpty() || seen.pop() != '{') {
+                    return false;
+                }
+            }
+            if (s.charAt(i) == ']') {
+                if( seen.isEmpty() || seen.pop() != '[') {
+                    return false;
+                }
+            }
+
+        }
+        if (!seen.isEmpty()) return false;
+        return true;
+    }
+}
+//OLD
+
 class Solution {
     public boolean isValid(String s) {
         //USE A STACK LIFO DATA STRUCTURE TO KEEP TRACK OF PARANTHESES
