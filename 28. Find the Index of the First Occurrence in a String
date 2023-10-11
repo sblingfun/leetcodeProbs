@@ -1,0 +1,18 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int hayPtr = 0;
+        int needlePtr = 0;
+
+        while (haystack.length() - hayPtr >= needle.length()) {
+            if (needlePtr >= needle.length()) return hayPtr;
+            if (haystack.charAt(hayPtr + needlePtr) == needle.charAt(needlePtr)) {
+                needlePtr++;
+            }
+            else {
+                needlePtr = 0;
+                hayPtr++;
+            }
+        }
+        return -1;
+    }
+}
