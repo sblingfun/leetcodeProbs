@@ -1,0 +1,37 @@
+class Solution {
+    public String convert(String s, int numRows) {
+        if (numRows == 1) return s;
+        //create an array of string builder for each row
+        StringBuilder[] sbArr = new StringBuilder[numRows];
+        for (int i = 0; i < sbArr.length; i++) {
+            sbArr[i] = new StringBuilder();
+        }
+
+        //not sure why cant use s.charAt but creating chararray solves problem
+        //char[] chars = s.toCharArray();
+
+        int curRow = 0;
+        boolean direction = true;
+        for (int i = 0; i < s.length(); i++) {
+            //sbArr[curRow].append(chars[i]);
+            sbArr[curRow].append(s.charAt(i));
+
+            
+            if (direction) {
+                curRow++;
+                if (curRow == numRows - 1) direction = false;
+            }
+            else {
+                curRow--;
+                if (curRow == 0) direction = true;
+            }
+        }
+        for (int i = 1; i < sbArr.length; i++) {
+            //append all string builders to the first string in order
+            sbArr[0].append(sbArr[i]);
+        }
+        //string builder toString
+        return sbArr[0].toString();
+
+    }
+}
