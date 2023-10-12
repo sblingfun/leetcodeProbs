@@ -1,6 +1,26 @@
 class Solution {
     public int strStr(String haystack, String needle) {
         int hayPtr = 0;
+        int needPtr = 0;
+        int hayLen = haystack.length();
+        int needLen = needle.length();
+        while (hayLen - hayPtr >= needLen) {
+            if (haystack.charAt(hayPtr + needPtr) == needle.charAt(needPtr)) {
+                needPtr++;
+                if (needPtr >= needLen) return hayPtr;
+            }
+            else {
+                needPtr = 0;
+                hayPtr++;
+            }
+        }
+        return -1;
+    }
+}
+//Another solution
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int hayPtr = 0;
         int needlePtr = 0;
 
         while (haystack.length() - hayPtr >= needle.length()) {
