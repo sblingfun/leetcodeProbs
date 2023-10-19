@@ -1,0 +1,26 @@
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        //O(n) time so cannot sort
+
+        HashSet<Integer> set = new HashSet<Integer>();
+        for (int num : nums) {
+            set.add(num);
+        }
+
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int tempCnt = 1;
+            //if number is in set then size of sequence is at least 1
+            int curNum = nums[i];
+            //if nums[i - 1] DNE then the number is the start of a sequence
+            if (set.contains(nums[i] - 1)) continue; // can skip value because not start of sequence
+
+            while (set.contains(curNum + 1)) {
+                tempCnt++;
+                curNum++;
+            }
+            count = Math.max(count, tempCnt);
+        }
+        return count;
+    }
+}
