@@ -1,0 +1,26 @@
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int start = 0;
+        int end = 0;
+        int curSum = 0;
+        int sizeDif = 0;
+
+        while (end < nums.length) {
+            curSum += nums[end];
+            end++;
+            while (curSum >= target) {
+                if (sizeDif == 0) {
+                    sizeDif = end - start;
+                }
+                else {
+                    sizeDif = Math.min(sizeDif, end - start);
+                }
+                curSum -= nums[start];
+                start++;
+            }
+        }
+
+        return sizeDif;
+        
+    }
+}
