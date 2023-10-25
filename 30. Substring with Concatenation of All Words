@@ -1,3 +1,82 @@
+//adding my own work
+//this solution is incomplete
+class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        //initalize return list
+        List<Integer> retList = new ArrayList<Integer>();
+
+        //add all words to HashMap
+        HashMap<String,Integer> wordList = new HashMap<String,Integer>();
+        for (String word : words) {
+            int num = wordList.getOrDefault(word,0);
+            wordList.put(word,num + 1);
+        }
+        //HashMap to keep track of removed words
+        HashMap<String,Integer> removeList = new HashMap<String,Integer>();
+
+        int wrdLen = words[0].length();
+        int numWrds = words.length;
+        int concatSize = wrdLen * numWrds;
+        int leadPtr = 0;
+        int trailPtr = 0;
+        
+        while (leadPtr <= s.length() - concatSize) {
+            
+
+            
+            
+            //pull next word
+            String temp = s.substring(leadPtr, leadPtr + wrdLen);
+            System.out.println("Trail: " + trailPtr + " lead: " + leadPtr + " curWrd: " + temp);
+            System.out.println(wordList.keySet());
+            //check if word is in word list
+            //Using Integer instead of int to allow nullable
+            Integer num = wordList.get(temp);
+            //word is in wordlist
+            if (num != null) {
+                //if reached end of current range remove trailing word
+                if (leadPtr - trailPtr >= concatSize) {
+                    String addBack = s.substring(trailPtr, trailPtr + wrdLen);
+                    int num2 = wordList.getOrDefault(addBack,0);
+                    wordList.put(addBack,num2 + 1);
+                }
+                //if only 1 element can be removed
+                if (num == 1) {
+                    wordList.remove(temp);
+                }
+                //can decrement count in map
+                else {
+                    wordList.put(temp, num - 1);
+                }
+                //add value to remove list
+                int num3 = removeList.getOrDefault(temp,0);
+                removeList.put(temp, num3 + 1);
+            }
+            //word not in list, start over and reset map
+            else {
+                //wordList.clear();
+                for (String word : removeList.keySet()) {
+                    int num2 = removeList.get(word);
+                    wordList.put(word,num2);
+                }
+                removeList.clear();
+                trailPtr = leadPtr + wrdLen;
+            }
+            //check if all words gone from list then add value to answer
+            if (wordList.isEmpty()) {
+                retList.add(trailPtr);
+            }
+
+            //next word 
+            leadPtr += wrdLen;
+        }
+        return retList;
+        
+
+
+    }
+}
+
 public static List<Integer> findSubstring(String S, String[] L) {
     List<Integer> res = new ArrayList<Integer>();
     if (S == null || L == null || L.length == 0) return res;
