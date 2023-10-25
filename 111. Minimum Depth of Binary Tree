@@ -1,3 +1,25 @@
+//My solution
+class Solution {
+    public int minDepth(TreeNode root) {
+        if (root == null) return 0;
+        int count = 1;
+        Queue<TreeNode> toVisit = new LinkedList<TreeNode>();
+        toVisit.add(root);
+        while (!toVisit.isEmpty()) {
+            int curRowSize = toVisit.size();
+            for (int i = 0; i < curRowSize; i++) {
+                TreeNode temp = toVisit.remove();
+                //End node is when both right and left nodes of current node are null
+                if (temp.left == null && temp.right == null) return count;
+                if (temp.left != null) toVisit.add(temp.left);
+                if (temp.right != null) toVisit.add(temp.right);
+            }
+            count++;
+        }
+        return count;
+    }
+}
+
 //Given leetcode solution using BFS
 public int minDepth(TreeNode root) {
     if(root == null) return 0;
