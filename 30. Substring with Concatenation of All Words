@@ -1,3 +1,56 @@
+//Adding solution that would work if not having to iterate through the entire array but by word size (doesnt end up working)
+class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        //initalize return list
+        List<Integer> retList = new ArrayList<Integer>();
+
+        //add all words to HashMap
+        HashMap<String,Integer> wordList = new HashMap<String,Integer>();
+        for (String word : words) {
+            int num = wordList.getOrDefault(word,0);
+            wordList.put(word,num + 1);
+        }
+        //HashMap to keep track of removed words
+        HashMap<String,Integer> curList = new HashMap<String,Integer>();
+
+        int wrdLen = words[0].length();
+        int numWrds = words.length;
+        int concatSize = wrdLen * numWrds;
+        int leadPtr = 0;
+        int trailPtr = 0;
+        
+        while (leadPtr <= s.length() - wrdLen) {
+            //pull next word
+            String temp = s.substring(leadPtr, leadPtr + wrdLen);
+            //System.out.println("Trail: " + trailPtr + " lead: " + leadPtr + " curWrd: " + temp);
+            //System.out.println(wordList.keySet());
+            
+            curList.put(temp,curList.getOrDefault(temp,0) + 1);
+            
+            if (leadPtr >= concatSize) {
+                String toRmv = s.substring(trailPtr, trailPtr + wrdLen);
+                int num = curList.get(toRmv);
+                if (num == 1) {
+                    curList.remove(toRmv);
+                }
+                else {
+                    curList.put(toRmv, num - 1);
+                }
+                trailPtr += wrdLen;
+            }
+            
+            //if lists match
+            if (curList.equals(wordList)) {
+                retList.add(trailPtr);
+            }
+
+            //increment next word
+            leadPtr += wrdLen;
+        }
+        return retList;
+    }
+}
+
 //adding my own work
 //this solution is incomplete
 class Solution {
