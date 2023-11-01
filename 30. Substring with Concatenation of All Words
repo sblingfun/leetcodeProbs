@@ -1,3 +1,65 @@
+//160/179 my solution
+//Problem is iterating by word length if successfull issue with words that are all the same letter ie word: aaaaaaaaaaaa words{aa,aa} solution 1,2,3,4,5,6 etc
+//might need to iterate every letter
+class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        //initalize return list
+        List<Integer> retList = new ArrayList<Integer>();
+
+        //add all words to HashMap
+        HashMap<String,Integer> wordList = new HashMap<String,Integer>();
+        for (String word : words) {
+            int num = wordList.getOrDefault(word,0);
+            wordList.put(word,num + 1);
+        }
+        //HashMap to keep track of removed words
+        HashMap<String,Integer> curList = new HashMap<String,Integer>();
+
+        int wrdLen = words[0].length();
+        int numWrds = words.length;
+        int concatSize = wrdLen * numWrds;
+        int leadPtr = 0;
+        int trailPtr = 0;
+        
+        while (leadPtr <= s.length() - wrdLen) {
+            //pull next word
+            String temp = s.substring(leadPtr, leadPtr + wrdLen);
+            System.out.println("lead: " + leadPtr + " trail: " + trailPtr);
+            System.out.println("current wrd: " + temp);
+            System.out.println("curList: " + curList);
+
+            //if temp in wordList
+            if (wordList.containsKey(temp)) {
+                //check if size is too large
+                if (leadPtr - trailPtr >= concatSize || curList.getOrDefault(temp,0) > wordList.get(temp)) {
+                    String toRmv = s.substring(trailPtr, trailPtr + wrdLen);
+                    int val = curList.get(toRmv);
+                    if (val == 1) {
+                        curList.remove(toRmv);
+                    }
+                    else {
+                        curList.put(toRmv,val - 1);
+                    }
+                    trailPtr += wrdLen;
+                }
+                //add new word
+                curList.put(temp,curList.getOrDefault(temp,0) + 1);
+                //check if equal
+                if (curList.equals(wordList)) {
+                    retList.add(trailPtr);
+                }
+                leadPtr += wrdLen;                
+            }
+
+            else {
+                //not in list have to start over
+                curList.clear();
+                trailPtr = ++leadPtr;
+            }   
+        }            
+        return retList;
+    }
+}
 //Additional work with two hashmap solution (DOES NOT WORK)
 class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
