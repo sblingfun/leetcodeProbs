@@ -1,0 +1,42 @@
+class Solution {
+    public String minWindow(String s, String t) {
+        
+        if (t.length() > s.length()) {
+            return null;
+        }
+
+        //create dictionary with letters from t
+        //including duplicates -> HashMap
+        HashMap<Character,Integer> charDic = new HashMap<Character,Integer>();
+        for (int i = 0; i < t.length(); i++) {
+            charDic.put(t.charAt(i),charDic.getOrDefault(t.charAt(i),0));
+        }
+
+        int start = 0;
+        int end = 0;
+        while (end < s.length()) {
+            System.out.println("start: " + start);
+            System.out.println("end: " + end);
+            System.out.println("end: " + end);
+            //look for start 
+            while (!charDic.containsKey(s.charAt(start))) {
+                end = ++start;
+            }
+            
+            if (charDic.isEmpty()) {
+                return s.substring(start,start + end);
+            }
+            Integer num = charDic.get(s.charAt(end));
+            if (num != null) {
+                if (num == 1) {
+                    charDic.remove(s.charAt(end));
+                }
+                else {
+                    charDic.put(s.charAt(end), num - 1);
+                }
+            }
+            end++;
+        }
+        return null;
+    }
+}
