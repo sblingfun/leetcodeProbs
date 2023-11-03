@@ -3,3 +3,10 @@
 select unitssold.product_id, round(cast(sum(units*price) as float) / sum(units), 2) as average_price from unitssold
 left join prices on unitssold.product_id = prices.product_id and purchase_date >= start_date and purchase_date <= end_date
 group by unitssold.product_id
+
+//Not working solution cant handle case where product has price but no units sold
+SELECT p.product_id, ROUND( CAST( SUM( units * ISNULL(price,0)) AS FLOAT) / ISNULL(SUM(units),1) , 2)  as average_price
+FROM Prices p
+LEFT JOIN UnitsSold u ON p.product_id = u.product_id
+WHERE purchase_date BETWEEN start_date AND end_date
+GROUP BY p.product_id
