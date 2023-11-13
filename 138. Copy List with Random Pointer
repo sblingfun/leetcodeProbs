@@ -1,0 +1,31 @@
+class Solution {
+    public Node copyRandomList(Node head) {
+        //hashmap method
+        //O(n) space
+
+        //if (head == null) return null;
+
+        //linkedlist use dummyhead to avoid different first node insertion behavior
+        Node dummyHead = new Node(0);
+        
+        //init hashmap and add nodes
+        HashMap<Node,Node> listOfNodes = new HashMap<Node, Node>();
+        Node cur = head;
+        while (cur != null) {
+            Node temp = new Node(cur.val);
+            listOfNodes.put(cur,temp);
+            cur = cur.next;
+        }
+
+        //iterate through list and assign next and random using HashMap get()
+        cur = head;
+        dummyHead.next = listOfNodes.get(head);
+        while (cur != null) {
+            Node temp = listOfNodes.get(cur);
+            temp.next = listOfNodes.get(cur.next);
+            temp.random = listOfNodes.get(cur.random);
+            cur = cur.next;
+        }
+        return dummyHead.next;        
+    }
+}
