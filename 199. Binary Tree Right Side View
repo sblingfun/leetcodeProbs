@@ -1,0 +1,21 @@
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> retList = new ArrayList<Integer>();
+        if (root == null) return retList;
+        //retList.add(root.val);
+        List<TreeNode> curLvl = new ArrayList<TreeNode>();
+        curLvl.add(root);
+        while (!curLvl.isEmpty()) {
+            //System.out.println(curLvl.get(0).val);
+            retList.add(curLvl.get(0).val);
+            List<TreeNode> temp = new ArrayList<TreeNode>();
+            for (TreeNode node : curLvl) {
+                if (node.right != null) temp.add(node.right);
+                if (node.left != null) temp.add(node.left);
+            }
+            curLvl.clear();
+            curLvl = temp;
+        }
+        return retList;
+    }
+}
