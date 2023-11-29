@@ -1,0 +1,73 @@
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> retList = new ArrayList<List<Integer>>();
+        if (root == null) return retList;
+        List<TreeNode> curLvl = new ArrayList<TreeNode>();
+        curLvl.add(root);
+        boolean rToL = true;
+        while (!curLvl.isEmpty()) {
+            List<TreeNode> temp = new ArrayList<TreeNode>();
+            List<Integer> retVals = new ArrayList<Integer>();
+
+            //could set i = 0 or size of list
+            //ListIterator<Treenode> li = new ListIterator<TreeNode>();
+            ListIterator<TreeNode> li = curLvl.listIterator(curLvl.size());
+            if (rToL) {
+                //ListIterator<TreeNode> li = curLvl.listIterator(curLvl.size());
+                while (li.hasPrevious()) {
+                    TreeNode tempNode = li.previous();
+                    System.out.println("R  curNode: " + tempNode.val);
+                    if (tempNode.left != null) {
+                        temp.add(tempNode.left);
+                        System.out.println("adding: " + tempNode.left.val);
+                    }
+                    if (tempNode.right != null) {
+                        temp.add(tempNode.right);
+                        System.out.println("adding: " + tempNode.right.val);
+                    }
+                    
+                    retVals.add(tempNode.val);
+                }
+            }
+            else {
+                //ListIterator<TreeNode> li = curLvl.listIterator();
+                while (li.hasPrevious()) {
+                    TreeNode tempNode = li.previous();
+                    System.out.println("L  curNode: " + tempNode.val);
+                    
+                    if (tempNode.right != null) {
+                        temp.add(tempNode.right);
+                        System.out.println("adding: " + tempNode.right.val);
+                    }
+                    if (tempNode.left != null) {
+                        temp.add(tempNode.left);
+                        System.out.println("adding: " + tempNode.left.val);
+                    }
+                    
+                    
+                    retVals.add(tempNode.val);
+                }
+            }
+            /*
+            System.out.println("");
+            System.out.println("CurLvl: ");
+            for (TreeNode t : curLvl) {
+                System.out.print(t.val + " ");
+
+            }
+            System.out.println("");
+            System.out.println("Temp: ");
+            for (TreeNode t : temp) {
+                System.out.print(t.val + " ");
+            }
+            */
+            retList.add(retVals);
+            curLvl.clear();
+            curLvl = temp;
+
+            rToL = !rToL;
+
+        }
+        return retList;
+    }
+}
