@@ -1,0 +1,54 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        
+        if (nums == null || nums.length == 0) return -1;
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        //less optimal - find pivot point via binary search then conduct binary search in appropriate half of the array
+        //O(logn) + O(logn) => first search + second search => O(2logn) = O(logn)
+        
+        int pivot = -1;
+
+        //find pivot
+        
+            while (left < right) {
+                pivot = left + (right - left) / 2;
+
+
+                //pivot in right
+                if (nums[pivot] > nums[right]) {
+                    left = pivot + 1;
+                }
+                else {
+                    right = pivot;
+                }
+            }
+        //left is now pointing to pivot point
+        pivot = left;
+
+        //search for target
+        left = 0;
+        right = nums.length - 1;
+
+        //if (target > nums[pivot - 1] || target < nums[pivot]) return -1;
+        if (target >= nums[pivot] && target <= nums[right]) {
+            left = pivot;
+        }
+        else {
+            right = pivot;
+        }
+        
+        //binary search
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) return mid;
+            else if (nums[mid] < target) left = mid + 1;
+            else right = mid - 1;
+        }        
+
+        //value not found
+        return -1;
+    }
+}
