@@ -1,0 +1,46 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] retRange = new int[] {-1,-1};
+        if (nums.length == 0) return retRange;
+
+        //binary to find left
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            }
+            else if (nums[mid] > target) {
+                right = mid - 1;
+            }
+            else {
+                //putting comparison last to improve performance
+                retRange[0] = mid;
+                right = mid - 1;
+            }
+        }
+
+        if (retRange[0] == -1) return retRange;
+        //binary to find right
+        left = retRange[0];
+        right = nums.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            }
+            else if (nums[mid] > target) {
+                right = mid - 1;
+            }
+            else {
+                //putting comparison last to improve performance
+                retRange[1] = mid;
+                left = mid + 1;
+            }
+        }
+        return retRange;
+    }
+}
