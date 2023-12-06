@@ -1,0 +1,24 @@
+class Solution {
+    public int findMin(int[] nums) {
+        if (nums.length == 1) return nums[0];
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        //check if no rotation
+        if (nums[left] < nums[right]) return nums[left];
+
+        int minVal = nums[left];
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < minVal) {
+                minVal = nums[mid];
+                right = mid - 1;
+            }
+            else {
+                left = mid + 1;
+            }
+        }
+        return minVal;
+    }
+}
