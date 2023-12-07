@@ -1,0 +1,24 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if (nums.length <= 2) return nums.length;
+
+        //starting from left, I believe better time complexity from right but not sure
+
+        int lead = 2;
+        int trail = 1;
+        int freq = 0;
+
+        while (lead < nums.length) {
+            if (nums[lead] == nums[trail] && nums[lead] == nums[trail - 1]) {
+                lead++;
+            }
+            else {
+                trail++;
+                nums[trail] = nums[lead];
+                lead++;
+            }
+        }
+        return trail+1;
+
+    }
+}
