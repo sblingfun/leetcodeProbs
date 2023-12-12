@@ -1,3 +1,37 @@
+//also fails last test case because sum exceeds max integer value (can use long to resolve)
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        //gaurenteed to have at least 1 node dont need to check for null
+
+        Queue<TreeNode> curList = new LinkedList<TreeNode>();
+        List<Double> retList = new ArrayList<Double>();
+
+        //gaurenteed to be at least 1 node
+        curList.add(root);
+        int sum = 0;
+        double lvlSize = curList.size();
+        while (!curList.isEmpty()) {
+            sum = 0;
+            //cant use for each because modifying the collection
+            //can use Value = queue.size using iterator to pratice
+            lvlSize = curList.size();
+            
+            for (int i = 0; i < lvlSize; i++) {
+                TreeNode node = curList.remove();
+                sum += node.val;
+                if (node.left != null ) {
+                    curList.add(node.left);
+                }
+                if (node.right != null) {
+                    curList.add(node.right);
+                }
+            }
+            retList.add(sum / lvlSize);
+        }     
+        return retList;        
+    }
+}
+
 //Fails one solution test case
 class Solution {
     public List<Double> averageOfLevels(TreeNode root) {
