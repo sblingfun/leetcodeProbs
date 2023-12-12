@@ -1,0 +1,36 @@
+//Fails one solution test case
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        //gaurenteed to have at least 1 node dont need to check for null
+        HashSet<TreeNode> curLvl = new HashSet<TreeNode>();
+        HashSet<TreeNode> nextLvl = new HashSet<TreeNode>();
+        List<Double> retList = new ArrayList<Double>();
+        
+        int sum = 0;
+        double cnt = 0;
+        double avg = 0;
+        curLvl.add(root);
+
+        while (!curLvl.isEmpty()) {
+            nextLvl.clear();
+            cnt = curLvl.size();
+            for (TreeNode node : curLvl) {
+                if (node.left != null) {
+                    nextLvl.add(node.left);
+                }
+                if (node.right != null) {
+                    nextLvl.add(node.right);
+                }
+                sum += node.val;
+            }
+            curLvl = (HashSet)nextLvl.clone();
+            if (cnt != 0) {
+                avg = (sum / cnt);
+                retList.add(avg);
+            }
+            sum = 0;
+        }
+        return retList;
+        
+    }
+}
