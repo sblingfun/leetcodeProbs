@@ -1,0 +1,53 @@
+//First attempt not working
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if (left == right) return head;
+        ListNode dummyHead = new ListNode(-1,head);
+        
+        ListNode leadPtr = dummyHead, trailPtr = dummyHead;
+        //boolean revPart = false;
+
+        while (leadPtr.next.val != left) {
+            leadPtr = leadPtr.next;
+        }
+
+        ListNode startRev = leadPtr;
+        trailPtr = leadPtr.next;
+        leadPtr = leadPtr.next.next;
+
+        System.out.println("ST: " + startRev.val + "TR: " + trailPtr.val + "LD: " + leadPtr.val);
+
+        while (startRev.next.val != right) {
+            //ListNode temp = new ListNode(leadPtr.val,leadPtr.next);
+            trailPtr.next = leadPtr.next;
+            leadPtr.next = startRev.next;
+            startRev.next = leadPtr;
+            leadPtr = trailPtr.next;
+            System.out.println("ST: " + startRev.val + "TR: " + trailPtr.val + "LD: " + leadPtr.val);
+        }    
+
+        return dummyHead.next;
+    }
+}
+
+//Given solution
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummy = new ListNode(0); // created dummy node
+        dummy.next = head;
+        ListNode prev = dummy; // intialising prev pointer on dummy node
+        
+        for(int i = 0; i < left - 1; i++)
+            prev = prev.next; // adjusting the prev pointer on it's actual index
+        
+        ListNode curr = prev.next; // curr pointer will be just after prev
+        // reversing
+        for(int i = 0; i < right - left; i++){
+            ListNode forw = curr.next; // forw pointer will be after curr
+            curr.next = forw.next;
+            forw.next = prev.next;
+            prev.next = forw;
+        }
+        return dummy.next;
+    }
+}
