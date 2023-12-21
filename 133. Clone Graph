@@ -1,0 +1,78 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+*/
+
+class Solution {
+    public Node cloneGraph(Node node) {
+        if (node == null) return null;
+
+        Queue<Node> toVisit = new ArrayDeque<Node>();
+        HashMap<Integer,Node> seen = new HashMap<Integer,Node>();
+
+        
+
+        Node first = new Node(node.val);
+        seen.put(1,first);
+        toVisit.add(node);
+
+        while (!toVisit.isEmpty()) {
+            Node old = toVisit.remove();
+            Node temp = seen.get(old.val);
+            //System.out.println("old: "+ old.val);
+
+            for (Node n : old.neighbors) {
+                if (!seen.containsKey(n.val)) {
+                    toVisit.add(n);
+                    Node tempNew = new Node(n.val);
+                    seen.put(n.val,tempNew);
+                }
+                temp.neighbors.add(seen.get(n.val));
+                seen.put(old.val, temp);
+            }
+        }
+
+        return seen.get(1);
+    }
+}
+
+
+/* Old Solution
+if (node == null) {
+            return null;
+        }
+        if (node.neighbors.size() == 0) return new Node(node.val);
+        
+        Queue<Node> toVisit = new ArrayDeque<Node>();
+        HashSet<Integer> seenVal = new HashSet<Integer>();
+        toVisit.add(node);
+        //seenVal.add(node.val)
+        Node ptr = new Node(node)
+        while (!toVisit.isEmpty()) {
+            Node temp = toVisit.pop();
+            Node newNode = new Node(temp.val, temp.neighbors);
+            seenVal.add(newNode.val);
+            for (Node n : newNode.neighbors) {
+                if (!seenVal.contains(n.val)) {
+                    toVisit.add(n);
+                }
+            }
+        }
+
+        return new Node(-1);
+*/
