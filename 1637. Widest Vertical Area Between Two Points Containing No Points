@@ -1,0 +1,21 @@
+class Solution {
+    public int maxWidthOfVerticalArea(int[][] points) {
+        
+        int retVal = -1;
+        //add x values to hashmap Prioqueue
+        PriorityQueue<Integer> xCoord = new PriorityQueue<Integer>();
+        for (int[] point : points) {
+            //System.out.println(point[0]);
+            xCoord.add(point[0]);
+        }
+
+        int old = xCoord.poll();
+        while (!xCoord.isEmpty()) {
+            int cur = xCoord.poll();
+            retVal = Math.max(retVal, (cur - old));
+            old = cur;
+        }
+        return retVal;
+        
+    }
+}
