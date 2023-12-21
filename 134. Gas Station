@@ -1,5 +1,30 @@
 class Solution {
     public int canCompleteCircuit(int[] gas, int[] cost) {
+        int totSurplus = 0;
+        int curTank = 0;
+        int start = 0;
+        
+        for (int i = 0; i < gas.length; i++) {
+            totSurplus += gas[i] - cost[i];
+            curTank += gas[i] - cost[i];
+
+            if (curTank < 0) {
+                //reset
+                curTank = 0;
+                start = i + 1;
+            }
+        }
+
+        //if totalsurplus is negative solution cant exist
+        return (totSurplus < 0) ? -1 : start;
+
+    }
+}
+
+
+//Nested loop Solution
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
         
         int gasTank = 0;
         for (int i = 0; i < gas.length; i++) {
