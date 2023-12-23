@@ -1,0 +1,35 @@
+class Solution {
+    public int candy(int[] ratings) {
+        int candyTot = ratings.length;
+
+        if (ratings.length == 1) return candyTot;
+
+        int[] candyAmt = new int[ratings.length];
+        //everychild gets 1
+        Arrays.fill(candyAmt,1);
+
+        //check left neighbor
+        for (int i = 1; i < ratings.length; i++) {
+            //need to handle end cases
+            if (ratings[i] > ratings[i-1]) {
+                //candyTot++;
+                candyAmt[i] = candyAmt[i - 1] + 1;
+            }
+        }
+
+        //check right neighbor
+        for (int i = ratings.length - 2; i >= 0; i--) {
+            //need to handle end cases
+            if (ratings[i] > ratings[i+1]) {
+                //candyTot++;
+                candyAmt[i] = Math.max(candyAmt[i], candyAmt[i + 1] + 1);
+            }
+        }
+        candyTot = 0;
+        for (int candy : candyAmt) {
+            candyTot += candy;
+        }
+        return candyTot;
+
+    }
+}
