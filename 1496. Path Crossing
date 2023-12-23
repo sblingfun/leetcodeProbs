@@ -1,0 +1,34 @@
+class Solution {
+    public boolean isPathCrossing(String path) {
+
+        HashSet<List<Integer>> seenPts = new HashSet<List<Integer>>();
+        seenPts.add(new ArrayList<Integer>(List.of(0,0)));
+        int xCord = 0;
+        int yCord = 0;
+
+        for (int i = 0; i < path.length(); i++) {
+
+            switch (path.charAt(i)) {
+                case 'N':
+                    yCord++;
+                    break;
+                case 'E':
+                    xCord++;
+                    break;
+                case 'S':
+                    yCord--;
+                    break;
+                case 'W':
+                    xCord--;
+                    break;
+                //no default required
+            }
+            //System.out.println("x: " + xCord + " y: " + yCord + " L: " + path.charAt(i));
+            seenPts.add(new ArrayList<Integer>(List.of(xCord,yCord)));
+            //System.out.println("size: " + seenPts.size() + " i: " + i);
+            if (seenPts.size() == i + 1) return true;
+        }
+        //System.out.println(seenPts);        
+        return false;
+    }
+}
