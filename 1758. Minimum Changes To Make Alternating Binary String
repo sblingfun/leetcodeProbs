@@ -1,0 +1,47 @@
+class Solution {
+    public int minOperations(String s) {
+        int numMut = 0;
+
+        //End result can either be:
+        // 010101 (1s at odd)
+        // 101010 (1s at even)
+        // count number of changes to get from 1 arrangment and the other arrangment will be total digits - that count
+
+        for (int i = 0; i < s.length(); i++) {
+            if (i % 2 == 0) {
+                if (s.charAt(i) == '0') numMut++;
+            }
+            else {
+                if (s.charAt(i) == '1') numMut++;
+            }
+        }
+        
+        return Math.min(numMut, s.length() - numMut);
+    }
+}
+
+
+/*
+//Greedy solution does not work
+class Solution {
+    public int minOperations(String s) {
+        int numMut = 0;
+
+        char[] strArr = s.toCharArray();
+
+        if (s.length() == 1) return numMut;
+        for (int i = 1; i < s.length(); i++) {
+            if (strArr[i] == strArr[i-1]) {
+                if (strArr[i] == 0) {
+                    strArr[i] = '1';
+                }
+                else {
+                    strArr[i] = '0';
+                }
+                numMut++;
+            }
+        }
+        return numMut;
+    }
+}
+*/
