@@ -1,0 +1,66 @@
+class Solution {
+    public int trap(int[] height) {
+        
+        int wtrAmt = 0;
+
+        if (height.length == 1) {
+            return 0;
+        }
+
+        //amount of water at any index i is bounded by the max height on the left and right of each index
+        //the minimum of the max left and max right will yield the amount of water that can be stored at each index
+
+        //O(n) time and O(n) space solution
+
+        /*
+        int maxL = 0;
+        int maxR = 0;
+        int[] maxArr = new int[height.length];
+        for (int i = 0; i < height.length; i++) {
+            if (height[i] > maxL) maxL = height[i];
+            maxArr[i] = maxL;
+        }
+        for (int i = height.length - 1; i >= 0; i--) {
+            if (height[i] > maxR) maxR = height[i];
+            maxArr[i] = Math.min(maxArr[i], maxR);
+        }
+
+        for (int i = 0; i < height.length; i++) {
+            //maxArr - height b/c max amount of water that can be trapped at that index - height at location
+            if (maxArr[i] - height[i] > 0) {
+                wtrAmt += maxArr[i] - height[i];
+            }
+        }
+
+        return wtrAmt;
+
+        */
+
+        //O(n) time O(1) space w/2pointer only need 1 pass
+        int left = 0;
+        int right = height.length - 1;
+        int maxL = height[0];
+        int maxR = height[right];
+
+        while (left <= right) {
+            //shift smaller pointer
+            if (maxL < maxR){
+                //left pointer is less than right pointer
+                //this means left is bottleneck
+                maxL = Math.max(maxL, height[left]);
+                if (maxL > height[left]) {
+                    wtrAmt += maxL - height[left];
+                }                
+                left++;
+            }
+            else {
+                maxR = Math.max(maxR,height[right]);
+                if (maxR > height[right]) {
+                    wtrAmt += maxR - height[right];
+                }
+                right--;
+            }
+        }
+        return wtrAmt;
+    }
+}
