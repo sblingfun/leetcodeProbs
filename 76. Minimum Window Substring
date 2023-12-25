@@ -1,3 +1,61 @@
+//Better solution
+class Solution {
+    public String minWindow(String s, String t) {
+        int sLen = s.length();
+        int tLen = t.length();
+        if (tLen > sLen) {
+            return "";
+        }
+        int[] bestIdx = new int[] {0,0};
+        int minLen = Integer.MAX_VALUE;
+
+        HashMap<Character, Integer> dict = new HashMap<Character,Integer>();
+        for (int i = 0; i < tLen; i++) {
+            dict.put(t.charAt(i), dict.getOrDefault(t.charAt(i), 0) + 1);
+        }
+        int numNeed = tLen;
+
+        HashMap<Character, Integer> current = new HashMap<Character,Integer>();
+        int numCur = 0;
+
+        int left = 0;
+        int right = 0;
+
+        while (right < sLen) {
+            char cur = s.charAt(right);
+            current.put(cur, current.getOrDefault(cur,0) + 1);
+            //only count letter if less frequent then in dictionary
+            if (dict.containsKey(cur) && current.get(cur) <= dict.get(cur)) {
+                numCur++;
+            }
+            //if numCur == numNeed move left ptr
+            while (numCur == numNeed) {
+                //check if correct
+                if (right - left < minLen) {
+                    minLen = right - left;
+                    bestIdx[0] = left;
+                    bestIdx[1] = right + 1;
+                }
+
+                char toRmv = s.charAt(left);
+                if (current.get(toRmv) == 1) {
+                    current.remove(toRmv);
+                }
+                else {
+                    current.put(toRmv, current.get(toRmv) - 1);
+                }                                
+                if (dict.containsKey(toRmv) && current.getOrDefault(toRmv, 0) < dict.get(toRmv)  ) {
+                    //removed a necessary char
+                    numCur--;
+                }
+                left++;
+            }
+            right++;         
+        }
+        return s.substring(bestIdx[0], bestIdx[1]);
+    }
+}
+
 //First attempt not elegant solution
 class Solution {
     public String minWindow(String s, String t) {
