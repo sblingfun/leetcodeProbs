@@ -1,0 +1,58 @@
+class Solution {
+    public void solve(char[][] board) {
+        int numRow = board.length;
+        int numCol = board[0].length;
+        int idxRow = board.length - 1;
+        int idxCol = board[0].length - 1;
+        System.out.println("row: " + numRow + " col: " + numCol);
+
+        boolean[][] notCap = new boolean[numRow][numCol];
+        Queue<Pair<Integer,Integer>> toVisit = new LinkedList<Pair<Integer,Integer>>();
+        for (int i = 0; i < numCol; i++) {
+            if (board[0][i] == 'O') toVisit.add(new Pair(0,i));
+            if (board[idxRow][i] == 'O') toVisit.add(new Pair(idxRow,i));
+        }
+        for (int i = 1; i < numRow - 1; i++) {
+            if (board[i][0] == 'O') toVisit.add(new Pair(i,0));
+            if (board[i][idxCol] == 'O') toVisit.add(new Pair(i,idxCol));
+        }
+
+        System.out.println(toVisit);
+
+        
+        //toVisit.add(new Pair(row,col));
+        while (!toVisit.isEmpty()) {
+            Pair<Integer,Integer> cur = toVisit.remove();
+            System.out.println(toVisit);
+            if (board[cur.getKey()][cur.getValue()] == 'O') {
+                notCap[cur.getKey()][cur.getValue()] = true;
+            }
+            if (cur.getKey() - 1 >= 0 && board[cur.getKey() - 1][cur.getValue()] == 'O' && notCap[cur.getKey() - 1][cur.getValue()] != true ) {
+                toVisit.add(new Pair(cur.getKey() - 1, cur.getValue())); //(x-1,y)
+            }
+            System.out.println("key : " + (cur.getKey() + 1) + " val: " + cur.getValue());
+            
+            if (cur.getKey() + 1 <= idxRow && board[cur.getKey() + 1][cur.getValue()] == 'O' && notCap[cur.getKey() + 1][cur.getValue()] != true) {
+                System.out.println("added");
+                toVisit.add(new Pair(cur.getKey() + 1, cur.getValue())); //(x+1,y)
+            }
+            if (cur.getValue() - 1 >= 0 && board[cur.getKey()][cur.getValue() - 1] == 'O' && notCap[cur.getKey()][cur.getValue() - 1] != true) {
+                toVisit.add(new Pair(cur.getKey(), cur.getValue() - 1)); //(x,y - 1)
+            }
+            if (cur.getValue() + 1 <= idxCol && board[cur.getKey()][cur.getValue() + 1] == 'O' && notCap[cur.getKey()][cur.getValue() + 1] != true) {
+                toVisit.add(new Pair(cur.getKey(), cur.getValue() + 1)); //(x,y + 1)
+            }
+        }
+
+        System.out.println("row: " + numRow + " col: " + numCol);
+        //switch xs
+        for (int i = 0; i < numCol; i++) {
+            for (int j = 0; j < numRow; j++) {
+                System.out.println("check i:" + i + " j: " + j + " " + notCap[j][i]);
+                if (notCap[j][i] == false) {
+                    board[j][i] = 'X';
+                }
+            }
+        }
+    }
+}
