@@ -1,4 +1,64 @@
 //160/179 my solution
+/Problem is iterating by word length if successfull issue with words that are all the same letter ie word: aaaaaaaaaaaa words{aa,aa} solution 1,2,3,4,5,6 etc
+//might need to iterate every letter
+class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        //initalize retList
+        List<Integer> retList = new ArrayList<Integer>();
+        //initalize size variables
+        int strLen = s.length();
+        int wrdLen = words[0].length();
+        int numWrds = words.length;
+        int srchSize = wrdLen * numWrds;
+        //impossible case
+        if (strLen < srchSize) return retList;
+        //initalize dictionary in hashmap
+        HashMap<String,Integer> dict = new HashMap<String,Integer>();
+        for (String word: words) {
+            dict.put(word, dict.getOrDefault(word, 0) + 1);
+        }
+        //initalize 2 pointers
+        int right = 0;
+        int left = 0;
+        //initalize temporary hashmap
+        HashMap<String,Integer> current = new HashMap<String,Integer>();
+        //while loop
+        while (right <= strLen - wrdLen && left <= strLen - srchSize) {
+            //get next word
+            String curWrd = s.substring(right, right + wrdLen);
+            System.out.println(curWrd);
+            //if not valid word reset
+            if (!dict.containsKey(curWrd)) {
+                System.out.println("clearing");
+                current.clear();
+                left = ++right;
+            }
+            //if valid word
+            else {
+
+                current.put(curWrd, current.getOrDefault(curWrd, 0) + 1);
+                right += wrdLen;
+                //case for too many words
+                if (right - left > srchSize) {
+                    String toRmv = s.substring(left, left + wrdLen);
+                    Integer rmvVal = current.get(toRmv);
+                    if (rmvVal == 1) {
+                        current.remove(toRmv);
+                    }
+                    else {
+                        current.put(toRmv,rmvVal - 1);
+                    }
+                    left += wrdLen;
+                }
+                //check if valid
+                if (dict.equals(current)) {
+                    retList.add(left);
+                }
+            }
+        }
+        return retList;        
+    }
+}
 //Problem is iterating by word length if successfull issue with words that are all the same letter ie word: aaaaaaaaaaaa words{aa,aa} solution 1,2,3,4,5,6 etc
 //might need to iterate every letter
 class Solution {
