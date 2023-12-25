@@ -1,3 +1,98 @@
+//First attempt not elegant solution
+class Solution {
+    public String minWindow(String s, String t) {
+        
+        int sLen = s.length();
+        int tLen = t.length();
+        if (tLen > sLen) return "";
+        int[] bestIdx = new int[] {0,0};
+        int minLen = sLen + 2;
+
+        HashMap<Character,Integer> dict = new HashMap<Character,Integer>();
+        for (int i = 0; i < tLen; i++) {
+            dict.put(t.charAt(i), dict.getOrDefault(t.charAt(i), 0) + 1);
+        }
+
+        HashMap<Character,Integer> dictCpy = new HashMap<Character, Integer>(dict);
+        int left = 0;
+        int right = 0;
+        boolean correct = false;
+        //move to starting index
+        while (right < sLen && !dict.containsKey(s.charAt(right)) ) {
+            left++;
+            right++;
+        }
+        if (sLen - right < tLen) {
+            return "";
+        }
+
+        while (right < sLen) {
+            //System.out.println("L: " + left + " " + s.charAt(left) + " R:" + right + " " + s.charAt(right));
+            //System.out.println(dictCpy);
+            correct = true;
+            for (int val : dictCpy.values()) {
+                if (val > 0) {
+                    correct = false;
+                    break;
+                }
+            }
+                                
+            if (!correct) {
+                if (dict.containsKey(s.charAt(right))) {
+                    dictCpy.put(s.charAt(right), dictCpy.get(s.charAt(right)) - 1);
+                }
+                
+                right++;
+            }
+
+            else {
+                if (right - left < minLen) {
+                    //System.out.println("updated " + left + " " + (right));
+                    minLen = right - left;
+                    bestIdx[0] = left;
+                    bestIdx[1] = right;
+                }
+
+                dictCpy.put(s.charAt(left), dictCpy.get(s.charAt(left)) + 1);
+                left++;
+
+                while (left < right && !dict.containsKey(s.charAt(left))) {
+                    left++;
+                }          
+
+            }
+        }
+        
+        while (left <= sLen - tLen) {
+            correct = true;
+            for (int val : dictCpy.values()) {
+                if (val > 0) {
+                    correct = false;
+                    break;
+                }
+            }
+            if (right - left < minLen && correct) {
+                //System.out.println("updated final" + left + " " + (right));
+                minLen = right - left;
+                bestIdx[0] = left;
+                bestIdx[1] = right;
+            }
+            if (dict.containsKey(s.charAt(left))) {
+                dictCpy.put(s.charAt(left), dictCpy.get(s.charAt(left)) + 1);
+                left++;
+            }
+            
+            
+            while (left < right && !dict.containsKey(s.charAt(left))) {
+                left++;
+            } 
+
+        }
+        System.out.println(dictCpy);     
+        return s.substring(bestIdx[0], bestIdx[1]);
+    }
+}
+//old attempt
 class Solution {
     public String minWindow(String s, String t) {
         
