@@ -1,0 +1,32 @@
+class Solution {
+    public List<List<Integer>> findWinners(int[][] matches) {
+        HashMap<Integer,Integer> matchMap = new HashMap<Integer,Integer>();
+        HashSet<Integer> teams = new HashSet<Integer>();
+
+        for (int i = 0; i <= matches.length - 1; i++) {
+            teams.add(matches[i][0]);
+            teams.add(matches[i][1]);
+            matchMap.put(matches[i][1],matchMap.getOrDefault(matches[i][1], 0) + 1);
+        } 
+        for (int team : teams) {
+            matchMap.put(team, matchMap.getOrDefault(team, 0));
+        }
+        List<Integer> undefeated = new ArrayList<Integer>();
+        List<Integer> oneLoss = new ArrayList<Integer>();
+        for (int key : matchMap.keySet()) {
+            if (matchMap.get(key) == 1) {
+                oneLoss.add(key);
+            }
+            if (matchMap.get(key) == 0) {
+                undefeated.add(key);
+            }
+        }
+        Collections.sort(undefeated);
+        Collections.sort(oneLoss);
+        List<List<Integer>> retList = new ArrayList<List<Integer>>();
+        retList.add(undefeated);
+        retList.add(oneLoss);
+        return retList;
+
+    }
+}
