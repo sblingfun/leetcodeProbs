@@ -1,0 +1,16 @@
+class Solution {
+    public boolean uniqueOccurrences(int[] arr) {
+        HashMap<Integer,Integer> seenVals = new HashMap<Integer,Integer>();
+
+        for (int val : arr) {
+            seenVals.put(val,seenVals.getOrDefault(val,0) + 1);
+        }
+        HashSet<Integer> freq = new HashSet<Integer>();
+        for (int value: seenVals.values()) {
+            if (!freq.add(value)){
+                return false;
+            }
+        }
+        return true;
+    }
+}
