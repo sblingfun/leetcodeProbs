@@ -1,0 +1,43 @@
+//REVIEW DP BACKTRACKING SOLUTION
+class Solution {
+    ArrayList<List<String>> retList = new ArrayList<List<String>>();
+    public List<List<String>> partition(String s) {
+        
+
+        ArrayList<String> curList = new ArrayList<String>();
+        
+        findAns(s,0,curList);
+
+        return retList;
+    }
+
+    public void findAns(String s, int index, List<String> current) {
+        if (index == s.length()) {
+            //add to answer
+            retList.add(new ArrayList<String>(current));
+        }
+
+        for (int i = index; i < s.length(); i++) {
+            String sub = s.substring(index, i+1);
+            if (isPal(sub,0,sub.length() - 1)) {
+                current.add(sub);
+                findAns(s,i + 1, current);
+                current.remove(current.size() - 1);
+            }
+            else {
+                continue;
+            }
+        }
+    }
+
+    public boolean isPal(String s, int start, int end) {
+        while (start <= end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;        
+    }
+}
