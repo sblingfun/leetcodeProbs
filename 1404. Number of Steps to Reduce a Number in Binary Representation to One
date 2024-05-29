@@ -1,0 +1,94 @@
+class Solution {
+    public int numSteps(String s) {
+        
+        //Faster to leave in binary
+        /*
+        int decRep = 0;
+        int power = s.length() - 1;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) - '1' == 0) {               
+                double temp = Math.pow(2,power);
+                decRep += temp;
+                //System.out.println("temp: " + temp);
+            }
+            power--;
+        }
+        */
+        int count = 0;
+
+        //char[] curString = s.toCharArray();
+        
+        /*
+        String curString = s;
+        StringBuilder sb = new StringBuilder();
+
+        while (curString.equals('1')) {
+            if (curString.charAt(curString.length()) - '1' == 0) {
+                int index = 0;
+                while (index < curString.length() && curString.charAt(index) - '1' == 0) {
+                    index++;
+                    sb.add()
+                }
+            }
+            else {
+                
+            }
+            count++;
+        }
+        */
+        char[] sChars = s.toCharArray();
+        char[] curString = new char[s.length() + 1];
+        curString[0] = '0';
+        for (int i = 0; i < sChars.length; i++) {
+            curString[i + 1] = sChars[i];
+        }
+
+        //System.out.println(curString.length - 1);
+
+        int mostSigBit = 1;
+        while (mostSigBit < curString.length - 1) {
+            System.out.println("SigBit: " + mostSigBit);
+            if (curString[curString.length - 1] - '1' == 0) {
+                for (int i = curString.length - 1; i >= 0; i--) {
+                    if (curString[i] - '1' == 0) {
+                        curString[i] = '0';
+                    }
+                    else {
+                        System.out.println("i: " + i + " at i: " + curString[i]);
+                        curString[i] = '1';
+                        if (i < mostSigBit) {
+                            mostSigBit--;
+                        }
+                        break;
+                    }
+                }
+            }
+            else {
+                
+                for (int i = curString.length - 1; i >= 1; i--) {
+                    //System.out.println("i: " + i + " at i: " + curString[i]);
+                    curString[i] = curString[i - 1];                    
+                }
+                if (mostSigBit > 0) {
+                    curString[mostSigBit - 1] = '0';
+                }
+                mostSigBit++;
+            }
+            count++;
+
+            /*
+            for (int i = 0; i < sChars.length + 1; i++) {
+                System.out.print(curString[i]);
+                
+            }
+            System.out.print("\n");
+            System.out.println("SigBit: " + mostSigBit);
+            */
+        }
+
+        return count;
+
+        
+        
+    }
+}
