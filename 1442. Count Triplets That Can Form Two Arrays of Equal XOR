@@ -1,0 +1,48 @@
+//Innefficient Brute Force Solution
+
+class Solution {
+    public int countTriplets(int[] arr) {
+        
+        /*
+        int start = 0;
+        int middle = 1;
+        int end = 2;
+        
+        int start = 3;
+        int middle = 4;
+        int end = 4;
+        */
+
+        int count = 0;
+        int start = 0;
+        int middle = 1;
+        int end = 1;
+        while (start < arr.length) {
+            while (middle < arr.length) {
+                while (end < arr.length) {
+                    count += isTriple(arr, start, middle, end);
+                    end++;
+                }
+                end = ++middle;                
+            }      
+            middle = ++start;
+        }
+
+        
+        //System.out.println("a: " + a);
+        //System.out.println("b: " + b);
+        return count;
+    }
+
+    public int isTriple(int[] arr, int start, int middle, int end) {
+        int a = arr[start];
+        int b = arr[middle];
+        for (start = start + 1; start < middle; start++) {
+            a = a ^ arr[start];
+        }
+        for (middle = middle + 1; middle <= end; middle++) {
+            b = b ^ arr[middle];
+        }
+        return (a == b) ? 1 : 0;
+    }
+}
