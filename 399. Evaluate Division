@@ -1,0 +1,96 @@
+
+
+//CLOSE but not working version - overly complicated personal solution
+class Solution {
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        
+        //double[] ans = new double[queries.size()];
+        //Double[] ans = null;
+
+        HashSet<Character> seenVal = new HashSet<Character>();
+        HashMap<String,Double> lookUp = new HashMap<String,Double>();
+
+        //for (List<String> equ : equations) {
+        for (int j = 0; j < equations.size(); j++) {
+            List<String> equ = equations.get(j);
+            StringBuilder sb = new StringBuilder();
+            for (String equStr : equ) {
+                //String equStr = equ.get(j);
+                sb.append(equStr);                
+                for (int i = 0; i < equStr.length(); i++) {
+                    seenVal.add(equStr.charAt(i));                    
+                }                         
+            }
+            lookUp.put(sb.toString(), values[j]);
+            lookUp.put(sb.reverse().toString(), 1 / values[j]);            
+        }
+        //System.out.println(lookUp);
+
+        List<Double> retList = new ArrayList<Double>();
+
+        for (List<String> query : queries) {
+            System.out.println(query);
+            search : {
+                StringBuilder strb = new StringBuilder();
+                boolean same = true;
+                for (String queryStr : query) {
+                    String left = strb.toString();
+                    for (int i = 0; i < queryStr.length(); i++) {
+                        if (!seenVal.contains(queryStr.charAt(i))) {
+                            retList.add(-1.0);
+                            break search;
+                        }
+                        if (left.length() > 0 && !left.contains(String.valueOf(queryStr.charAt(i)))) {
+                            same = false;
+                        }                        
+                    }
+                    strb.append(queryStr);                
+                }
+                if (same) {
+                    retList.add(1.0);
+                    break search;
+                }
+                String init = strb.toString();                
+                if (lookUp.containsKey(init)) {
+                    retList.add(lookUp.get(init));
+                }
+                else {
+                    Double temp = 1.0;
+                    List<String> keys = new ArrayList(lookUp.keySet());
+                    while (!lookUp.containsKey(init)) {
+                        keySearch : {
+                            for (String key : keys) {          
+                                System.out.println("key: " + key);                  
+                                if (key.charAt(0) == init.charAt(0)) {
+                                    if (key.length() == 2) {
+                                        init = init.replace(key.charAt(0),key.charAt(1));
+                                        System.out.println("replacing: " + key.charAt(0) + " -> " + key.charAt(1));
+                                        System.out.println(init);
+                                        System.out.println(lookUp.containsKey(init));
+                                        //init = strb.toString();                                
+                                        temp *= lookUp.get(key);
+                                        
+                                        break keySearch;
+                                    }
+                                    
+                                    
+                                    
+                                    
+                                }
+                            }
+                        }
+                                               
+                    }
+                    retList.add(temp * lookUp.get(init));
+                }
+            }
+            
+        }
+
+        
+        //ans = retList.toArray(new Double[retList.size()]);
+        double[] ans = retList.stream().mapToDouble(i -> i).toArray();
+
+        return ans;
+    }
+}
