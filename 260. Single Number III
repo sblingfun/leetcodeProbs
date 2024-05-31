@@ -1,0 +1,18 @@
+class Solution {
+    public int[] singleNumber(int[] nums) {
+        //List<Integer> ans = new ArrayList<Integer>();
+        HashSet<Integer> seen = new HashSet<Integer>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (!seen.contains(nums[i])) {
+                seen.add(nums[i]);
+            }
+            else {
+                seen.remove(nums[i]);
+            }
+        }
+        int[] ans = null;
+        ans = seen.stream().mapToInt(i -> i).toArray();
+        return ans;
+    }
+}
