@@ -14,17 +14,20 @@ class Solution {
         for (int j = 0; j < equations.size(); j++) {
             List<String> equ = equations.get(j);
             StringBuilder sb = new StringBuilder();
+            StringBuilder rev = new StringBuilder();
             for (String equStr : equ) {
                 //String equStr = equ.get(j);
-                sb.append(equStr);                
+                sb.append(equStr);
+                rev.append(new StringBuilder(equStr).reverse().toString());               
                 for (int i = 0; i < equStr.length(); i++) {
-                    seenVal.add(equStr.charAt(i));                    
+                    seenVal.add(equStr.charAt(i));
+                    //sb.append(equStr.charAt(i));                    
                 }                         
             }
             lookUp.put(sb.toString(), values[j]);
-            lookUp.put(sb.reverse().toString(), 1 / values[j]);            
+            lookUp.put(rev.reverse().toString(), 1 / values[j]);            
         }
-        //System.out.println(lookUp);
+        System.out.println(lookUp);
 
         List<Double> retList = new ArrayList<Double>();
 
