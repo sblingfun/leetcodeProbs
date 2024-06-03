@@ -1,0 +1,63 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    List<List<Integer>> retList = new ArrayList<List<Integer>>();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        
+        
+
+        List<Integer> startList = new ArrayList<Integer>();
+        if (root == null) return retList;
+        startList.add(root.val);
+        targetSum -= root.val;
+        if (root.left == null && root.right == null && targetSum == 0) {
+            retList.add(startList);
+        }
+        if (root.left != null) {
+            helpFunc(root.left, targetSum, startList);
+        }
+        if (root.right != null) {
+            helpFunc(root.right, targetSum, startList);
+        }
+        
+        return retList;
+
+
+    }
+
+    public void helpFunc(TreeNode root, int target, List<Integer> curList) {
+        ArrayList<Integer> newList = new ArrayList(curList);
+        //System.out.println(root.val);
+        newList.add(root.val);
+        //System.out.println(newList);
+        target -= root.val;
+        
+        if (root.left == null && root.right == null)  {
+            if (target == 0) {
+                retList.add(newList);
+            }
+        }
+
+        if (root.left != null) {
+            helpFunc(root.left, target, newList);
+        }
+
+        if (root.right != null) {
+            helpFunc(root.right, target, newList);
+        }
+        
+    }
+}
