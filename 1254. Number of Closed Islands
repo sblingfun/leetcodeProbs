@@ -1,0 +1,83 @@
+class Solution {
+    public int closedIsland(int[][] grid) {
+
+        //int[Y][X] FIRST IS HEIGHT SECOND IS WIDTH
+        int yLen = grid.length;
+        int xLen = grid[0].length;
+        
+        int[][] islandNum = new int[yLen][xLen];
+        int numIsl = 0;
+        int closedCnt = 0;
+
+        //List<List<Integer>> startCord = new ArrayList<List<Integer>>();
+        List<Boolean> closed = new ArrayList<Boolean>();
+
+        for (int i = 0; i < yLen; i++) {
+            for (int j = 0; j < xLen; j++) {
+                if (grid[i][j] == 0 && islandNum[i][j] == 0 ) {
+                    closed.add(true);
+                    //System.out.println("i: " + i + " j: " + j);
+                    int[] islCord = new int[] {i,j};
+                    //markIsland(grid, islandNum, ++numIsl, new int[] {i,j});
+                    markIsland(grid, islandNum, ++numIsl, islCord, closed);
+                    if (closed.get(numIsl - 1)) {
+                        closedCnt++;
+                    }
+                    //startCord.add(new ArrayList(Arrays.asList(i,j)));
+
+
+                }
+            }
+        }
+        /*
+        for (int i = 0; i < yLen; i++) {
+            for (int j = 0; j < xLen; j++) {
+                System.out.print(grid[i][j]);
+            }
+            System.out.println("");
+        }
+        
+        for (List<Integer> pair : startCord) {
+            System.out.print(pair.get(0));
+            System.out.println(pair.get(1));
+        }
+        
+        System.out.println("");
+        for (int i = 0; i < yLen; i++) {
+            for (int j = 0; j < xLen; j++) {
+                System.out.print(islandNum[i][j]);
+            }
+            System.out.println("");
+        }
+        */
+        return closedCnt;
+    }
+
+    public void markIsland(int[][] grid, int[][] islandNum, int numIsl, int[] start, List<Boolean> closeList) {
+        int yLen = grid.length;
+        int xLen = grid[0].length;
+        int yStart = start[0];
+        int xStart = start[1];
+
+        islandNum[yStart][xStart] = numIsl;
+
+        if (yStart == 0 || yStart == yLen - 1 || xStart == 0 || xStart == xLen - 1) {
+            closeList.set(numIsl - 1, false);
+        }
+        
+        if (xStart - 1 >= 0 && grid[yStart][xStart - 1] == 0 && islandNum[yStart][xStart - 1] == 0 ) {
+            markIsland(grid, islandNum, numIsl, new int[] {yStart, xStart - 1}, closeList);
+        }
+        if (xStart + 1 < xLen && grid[yStart][xStart + 1] == 0 && islandNum[yStart][xStart + 1] == 0) {
+            markIsland(grid, islandNum, numIsl, new int[] {yStart, xStart + 1}, closeList);
+        }
+        if (yStart - 1 >= 0 && grid[yStart - 1][xStart] == 0 && islandNum[yStart - 1][xStart] == 0) {
+            markIsland(grid, islandNum, numIsl, new int[] {yStart - 1, xStart}, closeList);
+        }
+        if (yStart + 1 < yLen && grid[yStart + 1][xStart] == 0 && islandNum[yStart + 1][xStart] == 0) {
+            markIsland(grid, islandNum, numIsl, new int[] { yStart + 1, xStart}, closeList);
+        }
+        
+
+    } 
+}
