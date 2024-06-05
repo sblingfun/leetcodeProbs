@@ -1,0 +1,52 @@
+class Solution {
+    public List<String> commonChars(String[] words) {
+        /*
+        List<String> retList = new ArrayList<String>();
+        //HashMap<Character,Integer> seenChars = new HashMap<Character,Integer>();
+        List<Character> chars = new ArrayList
+        for (int i = 0; i < word[0].length(); i++) {
+            seenChars.put(word[0].charAt(i),seenChars.getOrDefault(word[0].charAt(i), 0) + 1;
+        }        
+        for (int j = 1; j < words.length; j++) {
+            for (int i = 0; i < words[j].length(); i++) {
+                if (seenChars.get(words[j].charAt(i) ) )
+            }
+        }
+        */
+        List<String> retList = new ArrayList<String>();
+        HashMap<Character,Integer> seenChars = new HashMap<Character,Integer>();
+        for (int i = 0; i < words[0].length(); i++) {
+            //retList.add(words[0].substring(i,i + 1));
+            seenChars.put(words[0].charAt(i),seenChars.getOrDefault(words[0].charAt(i), 0) + 1);
+        }
+        for (int j = 1; j < words.length; j++) {
+            HashMap<Character,Integer> newChars = new HashMap<Character,Integer>();
+            for (int i = 0; i < words[j].length(); i++) {
+                if (seenChars.containsKey(words[j].charAt(i))) {
+                    newChars.put(words[j].charAt(i),newChars.getOrDefault(words[j].charAt(i), 0) + 1);
+                }
+                
+            }
+            for (Character c : newChars.keySet()) {
+                //System.out.println(c + " seen: " + seenChars.getOrDefault(c, 0) + " ? " + newChars.get(c));
+                newChars.put(c, Math.min(seenChars.getOrDefault(c, 0), newChars.get(c)) );
+            }
+            seenChars = newChars;
+            //System.out.println(seenChars);
+        }
+
+        for (Character ch : seenChars.keySet()) {
+            int freq = seenChars.get(ch);
+            if (freq > 0) {
+                while (freq > 0) {
+                    retList.add(Character.toString(ch));
+                    freq--;
+                }
+            }
+        }
+
+        //System.out.println(seenChars);
+
+        return retList;
+    }
+}
