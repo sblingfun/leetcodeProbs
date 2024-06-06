@@ -1,0 +1,142 @@
+class Solution {
+    public boolean isNStraightHand(int[] hand, int groupSize) {
+        boolean retVal = true;
+        
+        if (hand.length % groupSize != 0) {
+            return false;
+        }
+        if (groupSize == 1) return true;
+        int numGroups = hand.length / groupSize;
+
+        Arrays.sort(hand);
+        /*
+        quickSort(hand,0,hand.length - 1);
+        
+        for (int num : hand) {
+            System.out.print(num);
+        }
+        */
+
+        int[] lastNum = new int[numGroups];
+        int[] size = new int[numGroups];
+        int lastGroup = 0;
+        int workGroup = 0;
+        int compGroup = -1;
+        for (int i = 0; i < hand.length; i++) {
+            //System.out.println(i);
+            if (size[workGroup] == 0) {
+                size[workGroup] += 1;
+                lastNum[workGroup] = hand[i];
+            }
+            else {
+                //int dif = hand[i] - hand[i - 1];
+                int dif = hand[i] - lastNum[workGroup];
+                if (dif > 1) {
+                    return false;
+                }
+                else if (dif == 0) {
+                    workGroup++;
+                    lastGroup = Math.max(workGroup, lastGroup);
+                    if (lastGroup >= numGroups) {
+                        return false;
+                    }
+                    size[workGroup] +=1;
+                    lastNum[workGroup] = hand[i];
+                }
+                else {
+                    if (workGroup != compGroup + 1) {
+                        workGroup = compGroup + 1;
+                    }
+                    
+                    size[workGroup] +=1;
+                    lastNum[workGroup] = hand[i];
+                    if (size[workGroup] == groupSize) {
+                        compGroup++;
+                        workGroup++;
+                    }
+                }                     
+            }
+            /*
+            System.out.print("size: ");
+            for (int s : size) {
+                System.out.print(s);
+            }
+            System.out.println(" ");
+            System.out.print("last: ");
+            for (int s : lastNum) {
+                System.out.print(s);
+            }
+            System.out.println(" ");
+            System.out.println("work: " + workGroup + " last: " + lastGroup + "  comp: " + compGroup);
+            */
+        }
+        
+        /*
+        int[] incomGroup = new int[numGroups - 1];
+        int lastGroup = 0;
+        int workGroup = 0;
+        int compGroup = 0;
+        for (int i = 0; i < hand.length; i++) {
+            if (incomGroup[workGroup] == 0) {
+                incomGroup[workGroup] +=1;
+                lastGroup++
+            }
+            else {
+                int dif = hand[i] - hand[i - 1];
+                if (dif > 1) {
+                    return false;
+                }
+                else if (dif == 0) {
+                    lastGroup++;
+                    if (lastGroup >= numGroups) {
+                        return false;
+                    }
+                    incomeGroup[lastGroup] +=1;
+                }
+                else {
+                    incomGroup[workGroup] +=1;
+                    if (incomGroup[workGroup] == groupSize) {
+                        compGroup++;
+                        workGroup++;
+                    }
+                }                     
+            }
+
+        }
+        */
+        
+        
+        
+
+        return retVal;
+    }
+
+    public int partition(int[] hand, int low, int high) {
+        int temp = 0;
+        int pivot = hand[high];
+
+        int prevPos = low - 1;
+        for (int i = low; i <= high; i++) {
+            if (hand[i] < pivot) {
+                prevPos++;
+
+                temp = hand[i];
+                hand[i] = hand[prevPos];
+                hand[prevPos] = temp;  
+            }
+        }
+        temp = hand[prevPos + 1];
+        hand[prevPos + 1] = hand[high];
+        hand[high] = temp;
+        return (prevPos + 1);
+    }
+    public void quickSort(int[] hand, int low, int high) {
+        
+        if (low < high) {
+            int partVal = partition(hand, low, high);
+            quickSort(hand, low, partVal - 1);
+            quickSort(hand, partVal + 1, high);
+        }
+        
+    }
+}
