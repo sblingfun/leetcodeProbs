@@ -1,0 +1,32 @@
+class Solution {
+    public int maxSatisfied(int[] customers, int[] grumpy, int minutes) {
+        int left = 0;
+        int right = 0;
+        int total = 0;
+        int maxChange = 0;
+        int current = 0;
+
+        while (right < customers.length) {
+            //System.out.println("r: " + right + " l: " + left);
+            //System.out.println("total: " + total + " cur: " + current + " max: " + maxChange);
+            if (right - left < minutes) {
+                if (grumpy[right] == 0) {
+                    total += customers[right];
+                }
+                else {
+                    current += customers[right];
+                    maxChange = Math.max(maxChange, current);
+                }
+                right++;
+            }
+            else {
+                if (grumpy[left] == 1) {
+                    current -= customers[left];
+                }
+                left++;
+            }
+            
+        }
+        return total + maxChange;
+    }
+}
