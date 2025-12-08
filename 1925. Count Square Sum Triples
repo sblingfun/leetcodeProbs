@@ -1,4 +1,23 @@
 
+//Faster solution - double nested loop, don't iterate through all possible c values take square root and check if sqares of a and b are equal and sqrt value is below n
+//Need to add 1.0 to sqrt value to make float and then cast to int
+//Addition is communative so each pair of a and b can be reversed
+
+class Solution {
+    public int countTriples(int n) {
+        int retVal = 0;
+        for (int i = 1; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int c = (int) Math.sqrt(i*i + j*j + 1.0);
+                if (c <= n && i * i + j * j == c * c ) {
+                    retVal += 2;
+                }
+            }
+        }
+        return retVal;
+    }
+}
+
 //Initial attempt - triple nested loop
 //Solution slow
 
