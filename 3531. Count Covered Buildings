@@ -1,6 +1,6 @@
 
 
-//Initial Attempt - I believe solution works but takes too long
+//Initial Attempt - solution works without output text
 class Solution {
     public int countCoveredBuildings(int n, int[][] buildings) {
         int retVal = 0;
@@ -17,8 +17,8 @@ class Solution {
             yList.add(buildings[i][0]);
             yMap.put(buildings[i][1], yList);
         }
-        System.out.println(xMap);
-        System.out.println(yMap);
+        //System.out.println(xMap);
+        //System.out.println(yMap);
 
 
         for (Integer xCord : xMap.keySet()) {
@@ -32,12 +32,12 @@ class Solution {
                 }
                 for (int j = 0; j < curXList.size(); j++) {
                     if (curXList.get(j) != max && curXList.get(j) != min && yMap.get(curXList.get(j)).size() >= 3) {
-                        System.out.println("Checking y val = " + curXList.get(j));
+                        //System.out.println("Checking y val = " + curXList.get(j));
                         List<Integer> curYList = yMap.get(curXList.get(j));
                         boolean lowBnd = false;
                         boolean upBnd = false;
                         for (int k = 0; k < curYList.size(); k++) {
-                            System.out.println("Checking x val = " + curYList.get(k));
+                            //System.out.println("Checking x val = " + curYList.get(k));
                             if (curYList.get(k) > xCord) upBnd = true;
                             if (curYList.get(k) < xCord) lowBnd = true;
                             if (upBnd && lowBnd) {
