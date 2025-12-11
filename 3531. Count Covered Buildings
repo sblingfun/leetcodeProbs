@@ -1,0 +1,56 @@
+
+
+//Initial Attempt - I believe solution works but takes too long
+class Solution {
+    public int countCoveredBuildings(int n, int[][] buildings) {
+        int retVal = 0;
+        //Could use sorted data structure instead of list
+        HashMap<Integer, List<Integer>> xMap = new HashMap<Integer, List<Integer>>();
+        HashMap<Integer, List<Integer>> yMap = new HashMap<Integer, List<Integer>>();
+
+        for (int i = 0; i < buildings.length; i++) {
+            //System.out.println(buildings[i][0]);
+            List<Integer> xList = xMap.getOrDefault(buildings[i][0], new ArrayList<Integer>());
+            xList.add(buildings[i][1]);
+            xMap.put(buildings[i][0], xList);
+            List<Integer> yList = yMap.getOrDefault(buildings[i][1], new ArrayList<Integer>());
+            yList.add(buildings[i][0]);
+            yMap.put(buildings[i][1], yList);
+        }
+        System.out.println(xMap);
+        System.out.println(yMap);
+
+
+        for (Integer xCord : xMap.keySet()) {
+            if (xMap.get(xCord).size() >= 3) {
+                List<Integer> curXList = xMap.get(xCord);
+                int min = n;
+                int max = 0;
+                for (int j = 0; j < curXList.size(); j++) {
+                    if (curXList.get(j) > max) max = curXList.get(j);
+                    if (curXList.get(j) < min) min = curXList.get(j);
+                }
+                for (int j = 0; j < curXList.size(); j++) {
+                    if (curXList.get(j) != max && curXList.get(j) != min && yMap.get(curXList.get(j)).size() >= 3) {
+                        System.out.println("Checking y val = " + curXList.get(j));
+                        List<Integer> curYList = yMap.get(curXList.get(j));
+                        boolean lowBnd = false;
+                        boolean upBnd = false;
+                        for (int k = 0; k < curYList.size(); k++) {
+                            System.out.println("Checking x val = " + curYList.get(k));
+                            if (curYList.get(k) > xCord) upBnd = true;
+                            if (curYList.get(k) < xCord) lowBnd = true;
+                            if (upBnd && lowBnd) {
+                                retVal++;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return retVal;
+    }
+}
