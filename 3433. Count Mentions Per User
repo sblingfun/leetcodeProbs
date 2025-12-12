@@ -1,0 +1,64 @@
+
+//Read question throughly before answering - looking for frequency of mentions for each user, not number of mentions at each timestamp
+//Dont assume anything about solution - all example timestamps were in order but not all problems had events in time order
+//Needed to implement sorting before processing in order to maintain accurate lists
+//Can string multiple comparators together using thenComparing(), comparisons done using lambda expressions, can reverse invidiual steps in a complicated comparator using reverseOrder()
+
+class Solution {
+    public int[] countMentions(int numberOfUsers, List<List<String>> events) {
+        int[] mentionCnt = new int[numberOfUsers];
+
+        //sort event array
+        //Collections.sort(events, Comparator.comparingInteger(events.get))
+        events.sort(Comparator.comparing((List<String> list) -> Integer.parseInt(list.get(1)))
+                .thenComparing(list -> list.get(0), Comparator.reverseOrder()));
+        //System.out.println(events);
+
+        HashSet<Integer> offlineUsers = new HashSet<Integer>();
+        //HashMap<Integer, Integer> backOnlineTime = new HashMap<Integer, Integer>();
+        List<List<Integer>> backOnlineTime = new ArrayList<List<Integer>>();
+
+        for (List<String> event : events) {
+            //System.out.println(event);
+
+            //System.out.println("offline" + offlineUsers);
+            //System.out.println("offline" + backOnlineTime);
+            //check if time expired on offline
+            while (backOnlineTime.size() > 0 && Integer.parseInt(event.get(1)) >= backOnlineTime.get(0).get(0)) {
+                offlineUsers.remove(backOnlineTime.get(0).get(1));
+                backOnlineTime.remove(0);
+            }
+            //System.out.println("offline after" + offlineUsers);
+            //System.out.println("offline after" + backOnlineTime);
+            if (event.get(0).equals("MESSAGE")) {
+
+                if (event.get(2).equals("ALL")) {
+                    for (int i = 0; i < mentionCnt.length; i++) {
+                        mentionCnt[i]++;
+                    }
+                } else if (event.get(2).equals("HERE")) {
+                    for (int i = 0; i < mentionCnt.length; i++) {
+                        if (!offlineUsers.contains(i)) {
+                            mentionCnt[i]++;
+                        }
+                    }
+                } else {
+                    String mentionsString = event.get(2);
+                    String[] splitMentions = mentionsString.split(" ");
+                    for (String splitMention : splitMentions) {
+                        //System.out.println("Split: " + splitMention);
+                        int userId = Integer.parseInt(splitMention.substring(2));
+                        //System.out.println("id: " + userId);
+                        mentionCnt[userId]++;
+                    }
+                }
+            } else {
+                //offline
+                offlineUsers.add(Integer.parseInt(event.get(2))); //this might be multiple
+                backOnlineTime.add(new ArrayList<Integer>(
+                        Arrays.asList(Integer.parseInt(event.get(1)) + 60, Integer.parseInt(event.get(2)))));
+            }
+        }
+        return mentionCnt;
+    }
+}
