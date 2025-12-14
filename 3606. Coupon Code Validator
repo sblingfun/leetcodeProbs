@@ -1,0 +1,79 @@
+//Enum preserves natural ordering
+//Review regex matching ^ = not 
+//Can use hashmap to create custom ordering for string
+//can chain comparataors using comparing().thenComparing - need to identify lambda expression type
+
+class Solution {
+    /*
+    private enum Category {
+        //enums usually capitalized
+        //can take advantage of ENUM natural ordering for sorting
+        ELECTRONICS,
+        GROCERY,
+        PHARMACY,
+        RESTAURANT
+    }
+    */
+    
+
+    public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
+        HashSet<String> categorySet = new HashSet<String>();
+        categorySet.add("electronics");
+        categorySet.add("grocery");
+        categorySet.add("pharmacy");
+        categorySet.add("restaurant");
+
+        HashMap<String,Integer> categoryOrder = new HashMap<String, Integer>();
+        categoryOrder.put("electronics", 1);
+        categoryOrder.put("grocery", 2);
+        categoryOrder.put("pharmacy", 3);
+        categoryOrder.put("restaurant", 4);
+        
+        List<String> retString = new ArrayList<String>();
+        List<Integer> validList = new ArrayList<Integer>();
+        
+
+        for (int i = 0; i < isActive.length; i++) {
+            if (isActive[i]) validList.add(i);
+        }
+
+        
+        for (int i = 0; i < validList.size(); i++) {
+            if (code[validList.get(i)].length() <= 0 ) {
+                validList.remove(validList.get(i));
+                i--;
+            }
+            //regex /w includes underscore
+            else if (!code[validList.get(i)].matches("^[a-zA-Z0-9_]+$")) {
+                validList.remove(validList.get(i));
+                i--;
+            }
+        }
+
+        
+        for (int i = 0; i < validList.size(); i++) {
+            System.out.println("i: " + i);
+            //System.out.println("businessLine " + validList.get(i));
+            //System.out.println(categorySet.contains(businessLine[validList.get(i)]));
+            System.out.println(validList.size());
+            if (!categorySet.contains(businessLine[validList.get(i)])) {
+                validList.remove(validList.get(i));
+                i--;
+            }
+            System.out.println(validList.size());
+        }
+
+        Comparator<Integer> customComp = Comparator.comparing( (Integer s1) -> categoryOrder.get(businessLine[s1])).thenComparing( (Integer s2) -> code[s2]);//.thenComparing(code[s1]);
+        //Comparator<Integer> customComp = Comparator.comparingInt( (s1, s2) -> categoryOrder.get(businessLine[s1]), categoryOrder.get(businessLine[s2]));
+        //.thenComparing( (s1, s2) -> code[s1],code[s2]);
+        Collections.sort(validList, customComp);
+
+        for (int i = 0; i < validList.size(); i++) {
+            retString.add(code[validList.get(i)]);
+        }
+
+
+
+        return retString;   
+    }
+}
