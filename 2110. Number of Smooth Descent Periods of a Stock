@@ -1,0 +1,46 @@
+//Math based problem,  each additional number of days in a row increases the number of combinations by 1
+//So 2 days in a row has 1 combo 
+//3 days in a row has 3 combos
+//4 days in a row has 6
+//5 days in a row has 10
+
+//Relationship is that for each additional day in a row over 1 there is one more number of combos
+//EX: 5 days in a row has 1 combo of length 5, 2 combos of length 4, 3 combos of length 3, 4 combos of length 2, (counting 5 combos of length 1 at the end)
+// So for each day in a row over 1 add 1 to the number of combos added for that length
+
+class Solution {
+    public long getDescentPeriods(int[] prices) {
+        
+        long retVal = 0;
+
+        int inARow = 0;
+        int numPer = 1;
+        if (prices.length > 1) {
+            for (int i = 1; i < prices.length; i++) {
+                if (prices[i - 1] - prices[i] == 1) {
+                    inARow++;
+                }
+                else {
+                    while (inARow > 0) {
+                        retVal += numPer;
+                        numPer++;
+                        inARow--;
+                    //System.out.println("retVal: " + retVal + " numPer: " + numPer + " row: " + inARow);
+                    }
+                    numPer = 1;
+                }
+                
+            }
+            while (inARow > 0) {
+                    retVal += numPer;
+                    numPer++;
+                    inARow--;
+                    //System.out.println("retVal: " + retVal + " numPer: " + numPer + " row: " + inARow);
+            }
+            //numPer = 1;
+        }
+        retVal += prices.length;
+
+        return retVal;
+    }
+}
