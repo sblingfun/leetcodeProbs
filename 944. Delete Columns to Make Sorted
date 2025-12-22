@@ -1,0 +1,25 @@
+//Make sure to read problem (columns vs rows)
+//Can compare chars by subtracting them from each other
+//If the difference between chars is negative then the the second char comes before the first char
+
+
+class Solution {
+    public int minDeletionSize(String[] strs) {
+        int retVal = 0;
+
+        if (strs.length == 1) return 0;
+        for (int charIdx = 0; charIdx < strs[0].length(); charIdx++) {
+            for (int stringIdx = 1; stringIdx < strs.length; stringIdx++) {
+                //System.out.println(strs[stringIdx].charAt(charIdx) + " - " + strs[stringIdx - 1].charAt(charIdx));
+                //System.out.println(strs[stringIdx].charAt(charIdx) - strs[stringIdx - 1].charAt(charIdx));
+                if (strs[stringIdx].charAt(charIdx) - strs[stringIdx - 1].charAt(charIdx) < 0) {
+                    retVal++;
+                    break;
+                }
+            }
+        }
+
+        
+        return retVal;
+    }
+}
