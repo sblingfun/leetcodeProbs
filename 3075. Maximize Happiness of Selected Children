@@ -1,0 +1,48 @@
+//Initial solution - Sorting + Greedy
+//Sort array and then pull k largest values from array making sure to increase sum by decremented value 
+//Can also use priority queue
+
+
+class Solution {
+    public long maximumHappinessSum(int[] happiness, int k) {
+        long retVal = 0;
+
+        Arrays.sort(happiness);
+
+        int numPicked = 0;
+        int curIdx = happiness.length - 1;
+        while (k > 0) {
+            if (happiness[curIdx] - numPicked > 0) {
+                retVal += (happiness[curIdx] - numPicked);
+                numPicked++;
+                curIdx--;
+            }
+            else {
+                break;
+            }
+            k--;
+        }
+        return retVal;
+    }
+}
+
+//Priorityqueue solution, can just add all values to priorityqueue and pop off the first k values
+class Solution {
+    public long maximumHappinessSum(int[] happiness, int k) {
+        long retVal = 0;
+
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Comparator.reverseOrder());
+
+        for (int i = 0; i < happiness.length; i++) {
+            pq.add(happiness[i]);
+        }
+
+        int numSelected = 0;
+        while (k > 0) {
+            retVal += Math.max(pq.poll() - numSelected, 0);
+            k--;
+            numSelected++;
+        }
+    return retVal;
+  }
+}
