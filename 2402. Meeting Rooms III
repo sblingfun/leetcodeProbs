@@ -1,0 +1,72 @@
+//Initial attempt slow (I believe form using ArrayLists instead of arrays)
+//Can also keep track of current lowest value to not have to iterate through every room each time to look for a minimum
+
+//Sort + Greedy approach keep track of end times and constantly put the next available meeting in the next open room
+
+class Solution {
+    public int mostBooked(int n, int[][] meetings) {
+
+        /*
+        if (meetings.length > 50) {
+            for (int j = meetings.length - 30; j < meetings.length; j++) {
+                System.out.println(meetings[j][0] + "," + meetings[j][1]);
+            }
+        }
+        */
+        int retVal = 0;
+
+        if (n == 1) return 0;
+
+        Arrays.sort(meetings, Comparator.comparingInt(meet -> meet[0]));
+
+        List<Integer> useCnts = new ArrayList<Integer>(Collections.nCopies(n,0));
+        List<Long> endTimes = new ArrayList<Long>(Collections.nCopies(n,0L));
+        //Collections.nCopies(n, val) 
+        
+        //System.out.println(endTimes.size());
+
+        long minWait = 0;
+        int minWaitIdx = 0;
+        boolean roomsFull = true;
+        //int i = 0;
+        for (int[] meeting : meetings) {
+            
+            minWait = Long.MAX_VALUE;
+            roomsFull = true;
+            for (int roomIdx = 0; roomIdx < endTimes.size(); roomIdx++) {
+                if (endTimes.get(roomIdx) <= meeting[0]) {
+                    endTimes.set(roomIdx, Long.valueOf(meeting[1]));
+                    useCnts.set(roomIdx, useCnts.get(roomIdx) + 1);
+                    roomsFull = false;
+                    break;
+                }
+                else {
+                    if ((endTimes.get(roomIdx) - meeting[0]) < minWait) {
+                        minWait = endTimes.get(roomIdx) - meeting[0];
+                        minWaitIdx = roomIdx; 
+                    }                     
+                }
+            }
+            if (roomsFull) {
+                endTimes.set(minWaitIdx, meeting[1] - meeting[0] + endTimes.get(minWaitIdx));
+                useCnts.set(minWaitIdx, useCnts.get(minWaitIdx) + 1);
+            }
+
+            //i++;
+            //System.out.println("i: " + i);
+            //System.out.println(useCnts);
+            //System.out.println(endTimes);
+            //if (meeting[0] > 79999) {
+            //    System.out.println(useCnts);
+            //    System.out.println(endTimes);
+            //}
+        }
+        //System.out.println(useCnts);
+        for (int i = 1; i < useCnts.size(); i++) {
+            if (useCnts.get(i) > useCnts.get(retVal)) {
+                retVal = i;
+            }
+        }
+        return retVal;
+    }
+}
