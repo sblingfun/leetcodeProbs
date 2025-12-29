@@ -1,0 +1,20 @@
+
+//Initial solution 0ms runtime but not most efficient, not using binary search or keeping track of the fact that columns are sorted
+
+class Solution {
+    public int countNegatives(int[][] grid) {
+        
+        int retVal = 0;
+        for (int[] row : grid) {
+            for (int i = 0; i < row.length; i++) {
+                if (row[i] < 0) {
+                    retVal += row.length - i;
+                    break;
+                }
+            }
+        }
+
+        return retVal;
+
+    }
+}
