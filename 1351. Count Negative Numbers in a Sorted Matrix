@@ -1,3 +1,56 @@
+//Double optimized solution perform inital search on last row using binary search
+//Then keep track of index of first negative in the last row
+//Only need to search next row from the start of the first negative in the last row because columns are also sorted
+
+//Binary search
+//while (l < r)
+//mid = l + (r - l) / 2
+//return r
+
+class Solution {
+    public int countNegatives(int[][] grid) {
+        
+        int retVal = 0;
+        
+        /*
+        for (int[] row : grid) {
+            for (int i = 0; i < row.length; i++) {
+                if (row[i] < 0) {
+                    retVal += row.length - i;
+                    break;
+                }
+            }
+        }
+        */
+
+        int firstNegativeLastRow = 0;
+        for (int colIdx = grid.length - 1; colIdx >= 0; colIdx--) {
+            firstNegativeLastRow = binarySearch(grid[colIdx], firstNegativeLastRow, grid[colIdx].length);
+            retVal += grid[colIdx].length - firstNegativeLastRow;
+        }
+
+        return retVal;
+
+    }
+}
+    
+    public static int binarySearch(int[] row, int l, int r) {
+        int mid;
+        while (l < r) {
+            mid = l + (r - l) / 2;
+            if (row[mid] >= 0) {
+                l = mid + 1;
+            }
+            else {
+                r = mid;
+            }
+        }
+        //System.out.println("Binary return: " + r);
+        return r;
+    }
+    
+}
+
 
 //Initial solution 0ms runtime but not most efficient, not using binary search or keeping track of the fact that columns are sorted
 
