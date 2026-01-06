@@ -1,0 +1,31 @@
+//BFS solution using 2 lists, can use a single queue and keep track of how many nodes to pull off queue before incrementing row instead
+
+class Solution {
+    public int maxLevelSum(TreeNode root) {
+        int maxRow = 1;
+        int maxSum = Integer.MIN_VALUE;
+        int curRow = 1;
+        int curRowSum = 0;
+        List<TreeNode> curList = new ArrayList<TreeNode>();
+        List<TreeNode> nextList = new ArrayList<TreeNode>();
+
+        curList.add(root);
+        while (!curList.isEmpty()) {
+            curRowSum = 0;
+            for (TreeNode curNode : curList) {
+                curRowSum += curNode.val;
+                if (curNode.left != null) nextList.add(curNode.left);
+                if (curNode.right != null) nextList.add(curNode.right);
+            }
+            if (curRowSum > maxSum) {
+                maxSum = curRowSum;
+                maxRow = curRow;
+            }
+            curRow++;
+            curList = new ArrayList<TreeNode>(nextList);
+            nextList.clear();
+        }
+
+        return maxRow;
+    }
+}
