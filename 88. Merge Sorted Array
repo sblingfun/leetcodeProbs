@@ -1,5 +1,31 @@
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
+        
+        int currentIdx = nums1.length - 1;
+        int firstIdx = m - 1;
+        int secondIdx = n - 1;
+
+        while (firstIdx >= 0 && secondIdx >= 0) {
+            if (nums2[secondIdx] >= nums1[firstIdx]) {
+                nums1[currentIdx] = nums2[secondIdx];
+                secondIdx--;
+            }
+            else {
+                nums1[currentIdx] = nums1[firstIdx];
+                firstIdx--;
+            }
+            currentIdx--;
+        }
+        while (secondIdx >= 0) {
+            nums1[currentIdx] = nums2[secondIdx];
+            secondIdx--;
+            currentIdx--;
+        }
+    }
+}
+
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
         int ptr = nums1.length - 1;
         m--;
         n--;
