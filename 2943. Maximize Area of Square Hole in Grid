@@ -1,0 +1,43 @@
+//Just need to sort and find minimum of longest consecutive sequence from horizontal and verticle
+
+class Solution {
+    public int maximizeSquareHoleArea(int n, int m, int[] hBars, int[] vBars) {
+        int retVal = 1;
+
+        Arrays.sort(hBars);
+        //Arrays.sort
+        //Arrays.toString to print
+        //System.out.println(Arrays.toString(hBars));
+        Arrays.sort(vBars);
+
+        int hLong = 1;
+        int tempLong = 1;
+
+        for (int i = 1; i < hBars.length; i++) {
+            if (hBars[i] - hBars[i - 1] == 1) {
+                tempLong++;                
+            }
+            else {
+                tempLong = 1;
+            }
+            hLong = Math.max(hLong, tempLong);
+        }
+
+        tempLong = 1;
+        int vLong = 1;
+        for (int i = 1; i < vBars.length; i++) {
+            if (vBars[i] - vBars[i - 1] == 1) {
+                tempLong++;                
+            }
+            else {
+                tempLong = 1;
+            }
+            vLong = Math.max(vLong, tempLong);
+        }
+
+        int longestSide = Math.min(vLong, hLong) + 1;
+
+
+        return longestSide * longestSide;
+    }
+}
