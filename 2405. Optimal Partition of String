@@ -1,3 +1,24 @@
+//O(n) solution - every time you see a repeated character in the previous substring a new substring must be started
+
+class Solution {
+    public int partitionString(String s) {
+
+        int retVal = 1;
+        HashSet<Character> seenChars = new HashSet<Character>();
+
+        for (int i = 0; i < s.length(); i++) {
+            Character curChar = s.charAt(i);
+            if (seenChars.contains(curChar)) {
+                retVal++;
+                seenChars.clear();
+            }
+            seenChars.add(curChar);
+        }
+
+        return retVal;
+    }
+}
+
 class Solution {
     public int partitionString(String s) {
         
