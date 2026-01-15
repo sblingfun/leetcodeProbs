@@ -1,0 +1,49 @@
+class Solution {
+    public int kthFactor(int n, int k) {
+        
+        //brute force O(n) solution - have to list every factor
+
+        /*
+        List<Integer> factorList = new ArrayList<Integer>();
+        for (int i = 1; i <= n; i++) {
+            if (n % i == 0) {
+                factorList.add(i);
+            }
+        }
+        if (factorList.size() < k) {
+            return -1;
+        }
+        else {
+            return factorList.get(k - 1);
+        }
+        */
+
+        List<Pair<Integer,Integer>> factorList = new ArrayList<Pair<Integer,Integer>>();
+        //Power done with Math.pow()
+        double inputRoot = Math.pow(n, .5);
+        //System.out.println(inputRoot);
+
+       
+        for (int i = 1; i <= inputRoot; i++) {
+            if (n % i == 0) {
+                factorList.add(new Pair(i, n / i));
+            }
+        }
+        //boolean isSquare = false;
+        int squareFactor = 0;
+        if (factorList.get(factorList.size() - 1).getKey() == factorList.get(factorList.size() - 1).getValue()) {
+            squareFactor = 1;
+        }
+
+        if (factorList.size() * 2 - squareFactor < k) {
+            return -1;
+        }
+        else if (factorList.size() >= k) {
+            return factorList.get(k - 1).getKey();
+        }
+        else {
+            return factorList.get(factorList.size() * 2 - k - squareFactor).getValue();
+        }
+
+    }
+}
