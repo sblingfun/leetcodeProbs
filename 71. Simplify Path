@@ -1,0 +1,51 @@
+//Use Deque interface to for stack
+//Want to use a stack so that the Last element added will be the first one removed (LIFO)
+//push() to put element at the start of the stack
+//pop() to remove the element at the start of the stack
+//removeLast() to remove the elements at the end of the stack (first elements added)
+
+class Solution {
+    public String simplifyPath(String path) {
+        StringBuilder sb = new StringBuilder();
+        //add chars using append
+        //sb.append("/");
+
+        String[] pathStrings = path.split("/");
+
+        //System.out.println(Arrays.toString(pathStrings));
+        //System.out.println(pathStrings.length);
+
+        //System.out.println(pathStrings[0]);
+        
+        Deque<String> pathStack = new ArrayDeque<String>();
+        
+
+        int parentDirLen = 0;
+        for (int i = 0; i < pathStrings.length; i++) {
+            if (pathStrings[i].length() == 0 || pathStrings[i].equals(".")) continue;
+            else if (pathStrings[i].equals("..")) {
+                    //sb.delete(sb.length() - parentDirLen - 1 ,sb.length());
+                    //parentDirLen = sb.length() - 1;
+                if (pathStack.size() > 0) {
+                    pathStack.pop();
+                }
+            }
+            else {
+                //sb.append("/");
+                //sb.append(pathStrings[i]);
+                //parentDirLen = pathStrings[i].length();
+
+                pathStack.push("/" + pathStrings[i]);
+            }
+            //System.out.println(sb.toString());
+            //System.out.println(pathStack);
+        }
+
+        while (pathStack.size() > 0) {
+            sb.append(pathStack.removeLast());
+        }
+        if (sb.length() == 0) sb.append("/");
+
+        return sb.toString();
+    }
+}
