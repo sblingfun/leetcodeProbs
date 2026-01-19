@@ -1,0 +1,36 @@
+//Simple stack problem - use Deque interface for stack implementation
+//Just need to pop off the last 2 integers for each operation and push the result back onto the top of the stack
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        //int retVal = 0;
+        Deque<Integer> numStack = new ArrayDeque<Integer>();
+
+        int tempVal = 0;
+        for (String token : tokens) {
+            if (token.equals("+")) {
+                tempVal = numStack.pop() + numStack.pop();
+                numStack.push(tempVal);
+            }
+            else if (token.equals("-")) {
+                int subtrahend = numStack.pop();
+                tempVal = numStack.pop() - subtrahend;
+                numStack.push(tempVal);
+            }
+            else if (token.equals("*")) {
+                tempVal = numStack.pop() * numStack.pop();
+                numStack.push(tempVal);
+            }
+            else if (token.equals("/")) {
+                int divisor = numStack.pop();
+                tempVal = numStack.pop() / divisor;
+                numStack.push(tempVal);
+            }
+            else {
+                numStack.push(Integer.parseInt(token));
+            }
+        }
+
+        return numStack.pop();
+    }
+}
