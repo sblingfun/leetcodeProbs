@@ -1,0 +1,22 @@
+//Sort array and then iterate through pairing the smallest numbers with the largest. Keep track of the largest pairing that you have encountered
+
+class Solution {
+    public int minPairSum(int[] nums) {
+        //System.out.println(nums.toString());
+        Arrays.sort(nums);
+
+        //int min = Integer.MAX_VALUE;
+        int max = 0;
+
+        int start = 0;
+        int end = nums.length - 1;
+        for (start = 0; start < nums.length / 2; start++) {
+            if (nums[start] + nums[end] > max) {
+                max = nums[start] + nums[end];
+            }
+            end--;
+        }
+
+        return max;
+    }
+}
