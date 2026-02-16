@@ -1,0 +1,27 @@
+char* addBinary(char* a, char* b) {
+    int lenA = strlen(a);
+    int lenB = strlen(b);
+
+    int maxLen = fmax(lenA, lenB) + 1;
+    char * ans = (char *) malloc((maxLen + 1));
+    ans[maxLen] = '\0';
+    printf("a: %i, b: %i, max: %i", lenA, lenB, maxLen);
+
+    int sum = 0;
+    while (lenA > 0 || lenB > 0 || sum > 0) {
+        if (lenA > 0) {
+            //need --lenA b/c strlen(a) starts at null char
+           sum += a[--lenA] - '0'; //1 - 0 = 1, 0 - 0 = 0
+        }
+        if (lenB > 0) {
+            sum += b[--lenB] - '0';
+        }
+
+        ans[--maxLen] = (sum % 2) + '0';
+        sum /= 2;
+
+    }  
+
+    return ans + maxLen;
+
+}
